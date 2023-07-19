@@ -1,12 +1,22 @@
-const express = require('express');
+const express = require("express");
+const  initializeCosmosDB = require("./db");
+const port = process.env.PORT || 3000;
 const app = express();
-const port = 3000;
 
-// Middleware
-app.use(express.json());
+async function startApp() {
+  try {
+    await initializeCosmosDB();
 
+    //Routes
+    //app.use("/api/user", userRoute);
+   
+    
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  } catch (err) {
+    console.error("Error initializing the app:", err);
+  }
+}
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+startApp();
