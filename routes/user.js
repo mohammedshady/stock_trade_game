@@ -4,6 +4,11 @@ const router = require("express").Router();
 // key (ex: MSFT) linked with database of stocks
 // num_shares => number of shares a user posses of a certain stock
 
+// to be added
+// 1- uuid
+// 2- fix initial amount of money
+// 3- test users list is actually updated 
+
 let users = []; 
 
 //returning list of users
