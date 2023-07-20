@@ -1,0 +1,72 @@
+/////////////////////////////// FOR FURTHER OPTIONS ////////////////////////////
+
+//delete API for a player in case they quit in middle of game
+
+/////////////////////////////////////// NOTES //////////////////////////////////
+
+// Steps:
+// check if stock.key is found
+// if yes; put Money and num_shares
+// if no; check action (BUY or SELL)
+//        if buy; post 
+//        if sell; 404 (may use throw later)
+
+// if money < stock.price, buy action -> cannot perform
+//put request for updating or deleting from the stocks array and updating money 
+//if the stock key is not found, 404 is returned
+//if the key is found, just update the number of shares and Money
+//this is to be used for "SELL" action
+
+//put request for updating or posting to the stocks array and updating money 
+//if the stock key is not found, add it to the stocks array
+//if the key is found, just update the number of shares and Money 
+//this is to be used for "BUY" action
+
+
+/////////////////////////////// COMMENTED FUNCTIONS (MAY USE LATER) //////////////////////////
+
+/*
+//post stock -> add a stock to array of stocks of a certain player (based on ID)
+router.post("/users/player/:id", (req, res) => {
+    //to ensure the player is found
+    const {id} = req.params; // -> destructure id from params
+    const index = users.findIndex((t) => t.id === id);
+    if (index === -1) {
+      return res.status(404).json({ error: "player not found" });
+    }
+    // player is found
+    const stock = {
+      key: req.body.key,
+      name: req.body.name,
+      price: req.body.price, //price per share
+      num_shares: req.body.num_shares, // -> shares->num_shares
+      // money_val : price * num_shares, //total value of money from this stock
+    };
+    users[index].stocks.push(stock); // push stock to the stocks array of the player found
+    res.status(201).json({ message: 'New stock added successfully', user: users[index] });
+  });
+  */
+
+  // incomplete fn
+  /*
+  router.put("/users/player/:id/stocks/:key/:shares_sell/sell", (req, res) => {
+ //to ensure the player is found
+  const {id} = req.params; // -> destructure id from params
+  const player_index = users.findIndex((t) => t.id === id);
+  
+  if (player_index === -1) 
+  {
+   return res.status(404).json({ error: "player not found" });
+  }
+  // player is found 
+  const key = req.params; // get stock key from params
+  const shares_sell = req.params; //number of shares to be sold
+  const stock_index = users[player_index].findIndex((t)=> t.key === key); //stock to be modified
+  const targetKey = key;
+  const targetElement = player.stocks.find(item=>item.key === targetKey && item.num_shares >= to_sell)
+  if(targetElement)
+  {
+    users[player_index].stocks[stock_index].num_shares -= 
+  }
+});
+*/
