@@ -1,22 +1,17 @@
 const express = require("express");
-const  initializeCosmosDB = require("./db");
-const port = process.env.PORT || 3000;
+//to be un uncommented
+//const userRoute = require("./routes/user");
+
+const { initializeCosmosDB } = require("./db");
+const port = 3000;
+
 const app = express();
+app.use(express.json());
+initializeCosmosDB();
 
-async function startApp() {
-  try {
-    await initializeCosmosDB();
+//to be uncommented
+//app.use("/api/user", userRoute);
 
-    //Routes
-    //app.use("/api/user", userRoute);
-   
-    
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
-  } catch (err) {
-    console.error("Error initializing the app:", err);
-  }
-}
-
-startApp();
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
