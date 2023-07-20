@@ -1,15 +1,22 @@
 const router = require("express").Router();
+//const { v4: uuidv4 } = require('uuid');
+const { customAlphabet } = require('nanoid'); //package for unique ID generation
+const generateNumericID = customAlphabet('1234567890', 4); //ID's are of length 4 digits
+
+
 
 // stock object
 // key (ex: MSFT) linked with database of stocks
 // num_shares => number of shares a user posses of a certain stock
 
-// to be added
-// 1- uuid
-// 2- fix initial amount of money
-// 3- test users list is actually updated 
-
 let users = []; 
+
+
+////////////////////////////////////////////////////////
+//                                                    //
+//                    GETTERS                         //
+//                                                    //
+////////////////////////////////////////////////////////
 
 //returning list of users
 router.get("/users", (req,res) => 
@@ -23,7 +30,8 @@ router.get("/users", (req,res) =>
 router.get("/users/:id", (req, res) => 
 {
   // Extract the player ID from the request parameter
-   const {id} = req.params; // -> destructure id from params
+  const id = parseInt(req.params.id);
+  //const {id} = req.params; // -> destructure id from params
   // Find the player with the corresponding ID in the users array
   const player = users.find(user => user.id === id);
   if (player) {
@@ -34,39 +42,53 @@ router.get("/users/:id", (req, res) =>
 });
 
 
-//adding a new player
-router.post("/users", (req, res) => {
-    const player = {
-      id: req.body.id,
-      name: req.body.name, // -> title->name
-      money: req.body.money,
-      //stocks array; initially user has 0 shares 
-      stocks: [ {key:"MSFT", num_shares : 0},
-                {key:"IBM" , num_shares : 0},
-                {key:"TSLA", num_shares : 0},
-                {key:"META", num_shares : 0},
-                {key:"AAPL", num_shares : 0}],  
-    };
-    users.push(player);
-    res.status(201).json({ message: 'User created successfully', users });
-  });
-
 //get stocks of a certain player (based on ID)
 router.get("/users/player/:id/stocks", (req, res) => {
-    const {id} = req.params; // -> destructure id from params
-    // Find the player with the corresponding ID in the users array
-    const player = users.find(user => user.id === id);
-    if (player) {
-      res.status(200).json(player.stocks);
-    } else {
-      res.status(404).json({ message: 'Player not found' });
-    }
-  });
+  // Extract the player ID from the request parameter
+  const id = parseInt(req.params.id);
+  //const {id} = req.params; // -> destructure id from params
+  // Find the player with the corresponding ID in the users array
+  const player = users.find(user => user.id === id);
+  if (player) {
+    res.status(200).json(player.stocks);
+  } else {
+    res.status(404).json({ message: 'Player not found' });
+  }
+});
+
 
 module.exports = router;
 
-////////////////////////////////// UNDER PROGRESS //////////////////////////////
-//test: check if data actually changes in users list
+
+////////////////////////////////////////////////////////
+//                                                    //
+//                      POSTERS                       //
+//                                                    //
+////////////////////////////////////////////////////////
+
+//adding a new player
+router.post("/users", (req, res) => {
+  const player = {
+    id: generateNumericID(),
+    name: req.body.name, 
+    money: 5000, // fixed with a constant amount at start of game 
+    //stocks array; initially user has 0 shares 
+    stocks: [ {key:"MSFT", num_shares : 0},
+              {key:"IBM" , num_shares : 0},
+              {key:"TSLA", num_shares : 0},
+              {key:"META", num_shares : 0},
+              {key:"AAPL", num_shares : 0}],  
+  };
+  users.push(player);
+  res.status(201).json({ message: 'User created successfully', users });
+});
+
+
+////////////////////////////////////////////////////////
+//                                                    //
+//                      PUTTERS                       //
+//                                                    //
+////////////////////////////////////////////////////////
 
 // PUT route for SELLING a stock
 router.put("/users/sell-stock", (req, res) => {
@@ -128,6 +150,12 @@ router.put("/users/buy-stock", (req, res) => {
   res.json({ message: 'Stock bought successfully', player });
 });
 
+
+
+
+
+////////////////////// TESTING FUNCTION //////////////////////////
+
 // Example function to fetch the stock price from AllStocks database
 // this is only used for testing purposes 
 // to be removed later
@@ -147,75 +175,3 @@ function getStockPriceFromAllStocks(stockKey) {
   // Return (??) if the stock key is not found (handle edge cases)
 }
 
-/////////////////////////////// FOR FURTHER OPTIONS ////////////////////////////
-
-//delete API for a player in case they quit in middle of game
-
-/////////////////////////////////////// NOTES //////////////////////////////////
-
-// Steps:
-// check if stock.key is found
-// if yes; put Money and num_shares
-// if no; check action (BUY or SELL)
-//        if buy; post 
-//        if sell; 404 (may use throw later)
-
-// if money < stock.price, buy action -> cannot perform
-//put request for updating or deleting from the stocks array and updating money 
-//if the stock key is not found, 404 is returned
-//if the key is found, just update the number of shares and Money
-//this is to be used for "SELL" action
-
-//put request for updating or posting to the stocks array and updating money 
-//if the stock key is not found, add it to the stocks array
-//if the key is found, just update the number of shares and Money 
-//this is to be used for "BUY" action
-
-
-/////////////////////////////// COMMENTED FUNCTIONS (MAY USE LATER) //////////////////////////
-
-/*
-//post stock -> add a stock to array of stocks of a certain player (based on ID)
-router.post("/users/player/:id", (req, res) => {
-    //to ensure the player is found
-    const {id} = req.params; // -> destructure id from params
-    const index = users.findIndex((t) => t.id === id);
-    if (index === -1) {
-      return res.status(404).json({ error: "player not found" });
-    }
-    // player is found
-    const stock = {
-      key: req.body.key,
-      name: req.body.name,
-      price: req.body.price, //price per share
-      num_shares: req.body.num_shares, // -> shares->num_shares
-      // money_val : price * num_shares, //total value of money from this stock
-    };
-    users[index].stocks.push(stock); // push stock to the stocks array of the player found
-    res.status(201).json({ message: 'New stock added successfully', user: users[index] });
-  });
-  */
-
-  // incomplete fn
-  /*
-  router.put("/users/player/:id/stocks/:key/:shares_sell/sell", (req, res) => {
- //to ensure the player is found
-  const {id} = req.params; // -> destructure id from params
-  const player_index = users.findIndex((t) => t.id === id);
-  
-  if (player_index === -1) 
-  {
-   return res.status(404).json({ error: "player not found" });
-  }
-  // player is found 
-  const key = req.params; // get stock key from params
-  const shares_sell = req.params; //number of shares to be sold
-  const stock_index = users[player_index].findIndex((t)=> t.key === key); //stock to be modified
-  const targetKey = key;
-  const targetElement = player.stocks.find(item=>item.key === targetKey && item.num_shares >= to_sell)
-  if(targetElement)
-  {
-    users[player_index].stocks[stock_index].num_shares -= 
-  }
-});
-*/
