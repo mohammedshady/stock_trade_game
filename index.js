@@ -1,5 +1,7 @@
 const express = require("express");
 const userRoute = require("./routes/user");
+const { initializeCosmosDB } = require("./db");
+
 const app = express();
 const port = 3000;
 
