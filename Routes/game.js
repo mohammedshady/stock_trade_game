@@ -30,7 +30,7 @@ router.post("/game", (req,res)=>{
 
 
 // user action (buy)
-router.put("/game/money", (req,res)=>{
+router.post("/game/money", (req,res)=>{
     try {
         // For demonstration purposes, we should link with db
         const gameSessionData = {
@@ -62,7 +62,7 @@ router.put("/game/money", (req,res)=>{
         }
     
         // Calculate the total cost of the purchase
-        const totalCost = selectedStock.price * quantity;
+        //const totalCost = selectedStock.price * quantity;
     
         // Check if the player has enough money to buy the stock
         if (player.money < totalCost) {
@@ -70,7 +70,7 @@ router.put("/game/money", (req,res)=>{
         }
     
         // Update the player's money and stocks after the purchase
-        player.money -= totalCost;
+       // player.money -= totalCost;
         player.stocks[stockSymbol] = (player.stocks[stockSymbol] || 0) + quantity;
          // we need to save the updated amount in user db
     
@@ -85,7 +85,7 @@ router.put("/game/money", (req,res)=>{
 
 
 //user action sell
-router.put("/game/money", (req,res)=>{
+router.post("/game/money", (req,res)=>{
 
     try {
       // For demonstration purposes, we should link with db
@@ -123,10 +123,10 @@ router.put("/game/money", (req,res)=>{
         }
     
         // Calculate the total amount gained from the sale
-        const totalAmount = selectedStock.price * quantity;
+        //const totalAmount = selectedStock.price * quantity;
     
         // Update the player's money and stocks after the sale
-        player.money += totalAmount;
+        //player.money += totalAmount;
         player.stocks[stockSymbol] -= quantity;   
         // we need to save the updated amount in user db
        
@@ -165,48 +165,80 @@ router.get("/game/stocks", (req,res)=>{
 });
 
 
-            //probably will completely change it later but just "متسيبش الورقة فاضية" 
+           
 
 // end game
-router.get("/game/", (req,res)=>{
-    try {
-        
-             // For demonstration purposes, we should link with db
-        const gameSessionData = {
-        //  sessionId: '123456', // Unique identifier for the game session
-          players: [
-            { name: 'Player1', money: 5000 },
-            { name: 'Player2', money: 5000 },
-            { name: 'Player3', money: 5000 },
-          ],
-          status: 'ended', // Status of the game session
-        };
-    
-        // You can fetch the gameSessionData from a database or any other data store if needed
-        // ...
-    
-        // Determine the winner based on the final amount of money each player has
-        let winner = null;
-        let maxMoney = 0;
-        for (const player of gameSessionData.players) {
-          if (player.money > maxMoney) {
-            maxMoney = player.money;
-            winner = player;
-          }
-        }
-    
-        // You can update the gameSessionData with the winner information if needed
-        // ...
-    
-        // Send the winner details in the response
-        res.status(200).json(winner); // HTTP status 200 (OK) and the winner details as JSON response
-      } catch (error) {
-        console.error('Error ending game session:', error);
-        res.status(500).json({ error: 'Failed to end the game session and determine the winner.' });
+router.post('/game/end', (req, res) => {
+  try {
+    // Assuming you have access to the game session data, including player details, available stocks, and game rounds
+    // For demonstration purposes, let's assume we have some sample game session data
+    const gameSessionData = {
+      sessionId: '123456', // Unique identifier for the game session
+      players: [
+        { name: 'User', money: 2000.0, stocks: { AAPL: 5, GOOGL: 10 } },
+        { name: 'AI', money: 1800.0, stocks: { MSFT: 7 } },
+      ],
+      availableStocks: [
+        { symbol: 'AAPL', name: 'Apple Inc.', price: 150.25 },
+        { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 2800.0 },
+        { symbol: 'MSFT', name: 'Microsoft Corporation', price: 300.75 },
+      ],
+      currentRound: 10, // Current round of the game
+      maxRounds: 15, // Maximum number of rounds for the game
+      timeLimit: 600, // Time limit for the game in seconds (10 minutes)
+    };
+
+    // Determine the conditions for ending the game
+    let isGameEnded = false;
+    let gameResult = '';
+
+    if (gameSessionData.currentRound >= gameSessionData.maxRounds) {
+      // The game ends when the maximum number of rounds is reached
+      isGameEnded = true;
+      gameResult = 'Maximum rounds reached. Game ended.';
+    } else {
+      // Check if the time limit has been reached (assuming the time is tracked separately)
+      const currentTime = 600; // For demonstration purposes, let's assume 600 seconds (10 minutes)
+      if (currentTime >= gameSessionData.timeLimit) {
+        isGameEnded = true;
+        gameResult = 'Time limit reached. Game ended.';
       }
+    }
 
+    // Calculate the final portfolio value for each player
+    const calculatePortfolioValue = (player) => {
+      let portfolioValue = player.money;
+      for (const stockSymbol in player.stocks) {
+        const stock = gameSessionData.availableStocks.find((s) => s.symbol === stockSymbol);
+        if (stock) {
+          portfolioValue += player.stocks[stockSymbol] * stock.price;
+        }
+      }
+      return portfolioValue;
+    };
 
+    const userPortfolioValue = calculatePortfolioValue(gameSessionData.players[0]);
+    const aiPortfolioValue = calculatePortfolioValue(gameSessionData.players[1]);
 
+    // Update the game session data with the final portfolio values if needed
+    // ...
+
+    // Send the game result and final portfolio values in the response
+    const resultData = {
+      isGameEnded,
+      gameResult,
+      userPortfolioValue,
+      aiPortfolioValue,
+    };
+
+    res.status(200).json(resultData);
+  } catch (error) {
+    console.error('Error ending the game:', error);
+    res.status(500).json({ error: 'Failed to end the game and calculate the final portfolio values.' });
+  }
 });
+
+
+
 
 module.exports = router;
