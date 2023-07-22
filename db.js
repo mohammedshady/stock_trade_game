@@ -38,9 +38,103 @@ async function getAllUsers() {
   const { resources: items } = await container.items.readAll().fetchAll();
   return items;
 }
+// Get a user by their ID
+async function getUserById(userId) {
+  const container = db.container("USER");
+  // Use a query to retrieve the user with the specified ID
+  const querySpec = {
+    query: "SELECT * FROM c WHERE c.id = @userId",
+    parameters: [{ name: "@userId", value: userId }],
+  };
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  // If the user is found, return the first item (user)
+  if (items.length > 0) {
+    return items[0];
+  } else {
+    // User not found
+    return null;
+  }
+}
+async function getUserStocksById(userId) {
+  const container = db.container("USER");
+  // Use a query to retrieve the user with the specified ID
+  const querySpec = {
+    query: "SELECT c.stocks FROM c WHERE c.id = @userId",
+    parameters: [{ name: "@userId", value: userId }],
+  };
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  // If the user is found, return the first item (user)
+
+  if (items.length > 0) {
+    return items[0];
+  } else {
+    // User not found
+    return null;
+  }
+}
+
+async function getStockPriceFromAllStocks(stockKey, day) {
+  const container = db.container("STOCK");
+  // Use a query to retrieve the user with the specified ID
+  const querySpec = {
+    query: `SELECT stock.price from c join stock in c["${stockKey}"] where stock.day = @day`,
+    parameters: [
+      { name: "@stockKey", value: stockKey },
+      { name: "@day", value: day },
+    ],
+  };
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  // If the user is found, return the first item (user)
+  if (items.length > 0) {
+    return items[0].price;
+  } else {
+    // User not found
+    return null;
+  }
+}
+
+async function updateUserInfo(userId, data) {
+  const container = db.container("USER");
+
+  // Use a query to retrieve the user
+  const querySpec = {
+    query: "SELECT * FROM c WHERE c.id = @userId",
+    parameters: [{ name: "@userId", value: userId }],
+  };
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  if (items.length > 0) {
+    // Get the user with the matching userId
+    const userToUpdate = items[0];
+
+    // Merge the updated info
+    const updatedUser = { ...userToUpdate, ...data };
+
+    // Replace the data
+    const { resource: result } = await container
+      .item(userToUpdate.id)
+      .replace(updatedUser);
+
+    return result;
+  } else {
+    // User not found
+    return null;
+  }
+}
 
 module.exports = {
   initializeCosmosDB,
   createUser,
   getAllUsers,
+  getUserById,
+  getUserStocksById,
+  getStockPriceFromAllStocks,
+  updateUserInfo,
 };
