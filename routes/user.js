@@ -2,8 +2,8 @@ const router = require("express").Router();
 //const { v4: uuidv4 } = require('uuid');
 //const { customAlphabet } = require('nanoid'); //package for unique ID generation
 //const generateNumericID = customAlphabet('1234567890', 4); //ID's are of length 4 digits
-// test 
-// test 2 
+// test
+// test 2
 
 const {
   createUser,
@@ -134,6 +134,9 @@ router.put("/users/sell-stock", async (req, res) => {
   stockToSell.num_shares -= parseInt(numShares);
   // Send a success response
   const updatedInfo = await updateUserInfo(userId, player);
+  if (!updatedInfo) {
+    return res.status(404).json({ error: "error updating player info" });
+  }
   res.json({ message: "Stock sold successfully", updatedInfo });
 });
 
@@ -173,6 +176,9 @@ router.put("/users/buy-stock", async (req, res) => {
   // Send a success response
 
   const updatedInfo = await updateUserInfo(userId, player);
+  if (!updatedInfo) {
+    return res.status(404).json({ error: "error updating player info" });
+  }
   res.json({ message: "Stock bought successfully", updatedInfo });
 });
 
