@@ -65,6 +65,29 @@ async function getUserById(userId) {
     return null;
   }
 }
+
+////////////////////////////////////////// AMIRA /////////////////////////////////////////
+// fn used for checking whether a username previously exits in the database or not 
+async function FindUser(name) {
+  const container = db.container("USER");
+  // Use a query to retrieve the user with the specified ID
+  const querySpec = {
+    query: "SELECT * FROM c WHERE c.name = @name",
+    parameters: [{ name: "@name", value: containerNames }],
+  };
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  // If the user is found, return the first item (user)
+  if (items.length > 0) {
+    return true;
+  } else {
+    // User not found
+    return false;
+  }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 async function getUserStocksById(userId) {
   const container = db.container("USER");
   // Use a query to retrieve the user with the specified ID

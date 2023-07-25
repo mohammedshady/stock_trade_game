@@ -1,9 +1,5 @@
 const router = require("express").Router();
-//const { v4: uuidv4 } = require('uuid');
-//const { customAlphabet } = require('nanoid'); //package for unique ID generation
-//const generateNumericID = customAlphabet('1234567890', 4); //ID's are of length 4 digits
-// test
-// test 2
+const crypto = require('crypto');
 
 const {
   createUser,
@@ -64,9 +60,11 @@ router.get("/users/player/:id/stocks", async (req, res) => {
 //adding a new player
 router.post("/users", async (req, res) => {
   try {
+    const uniqueID = crypto.randomUUID();
     const player = {
-      id: req.body.id,
+      id : uniqueID,
       name: req.body.name,
+      password : req.body.password,
       money: 5000,
       stocks: [
         { key: "MSFT", num_shares: 0 },
@@ -76,6 +74,12 @@ router.post("/users", async (req, res) => {
         { key: "AAPL", num_shares: 0 },
       ],
     };
+    //check that user entered a unique username (for SignUp & Login)
+    const userExists = await FindUser(player.name);
+    if(userExists)
+    {
+      return res.status(500).json({message:"User Already Exists, try another Username or Login"});
+    }
     // Save the new user to the database (using the createUser function)
     const user = await createUser(player);
     res.status(201).json({ message: "User created successfully", user });
