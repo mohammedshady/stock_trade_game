@@ -1,6 +1,14 @@
 // cosmosdb-init.js
 const { CosmosClient } = require("@azure/cosmos");
 
+const stockKeyMap = {
+  MSFT: "Stock_Data_MSFT",
+  IBM: "Stock_Data_IBM",
+  TSLA: "Stock_Data_TSLA",
+  META: "Stock_Data_META",
+  AAPL: "Stock_Data_JPM",
+};
+
 //DATABASE CONFIG
 const key = process.env.COSMOS_KEY;
 const endpoint = process.env.COSMOS_ENDPOINT;
@@ -77,11 +85,11 @@ async function getUserStocksById(userId) {
   }
 }
 
-async function getStockPriceFromAllStocks(stockKey, day) {
+async function getStockPriceFromStock(stockKey, day) {
   const container = db.container("STOCK");
   // Use a query to retrieve the user with the specified ID
   const querySpec = {
-    query: `SELECT stock.price from c join stock in c["${stockKey}"] where stock.day = @day`,
+    query: `SELECT stock.price,stock.differenceBetweenDayBefore from c join stock in c["${stockKey}"] where stock.day = @day`,
     parameters: [
       { name: "@stockKey", value: stockKey },
       { name: "@day", value: day },
@@ -92,7 +100,7 @@ async function getStockPriceFromAllStocks(stockKey, day) {
     .fetchAll();
   // If the user is found, return the first item (user)
   if (items.length > 0) {
-    return items[0].price;
+    return items[0];
   } else {
     // User not found
     return null;
@@ -129,12 +137,95 @@ async function updateUserInfo(userId, data) {
   }
 }
 
+async function createGame(newItem) {
+  const container = db.container("GAME");
+  const { resource: createdItem } = await container.items.create(newItem);
+  return createdItem;
+}
+
+async function getGame(id) {
+  const container = db.container("GAME");
+
+  const querySpec = {
+    query: `SELECT * from c where c.id = @id`,
+    parameters: [{ name: "@id", value: id }],
+  };
+  const { resources: game } = await container.items.query(querySpec).fetchAll();
+  // If the user is found, return the first item (user)
+  if (game.length > 0) {
+    return game[0];
+  } else {
+    // User not found
+    return null;
+  }
+}
+
+async function updateGameInfo(gameId, game) {
+  const container = db.container("GAME");
+
+  // Use a query to retrieve the user
+  const querySpec = {
+    query: "SELECT * FROM c WHERE c.id = @gameId",
+    parameters: [{ name: "@gameId", value: gameId }],
+  };
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  if (items.length > 0) {
+    // Get the user with the matching userId
+    const gameToUpdate = items[0];
+
+    // Merge the updated info
+    const updatedGame = { ...gameToUpdate, ...game };
+
+    // Replace the data
+    const { resource: result } = await container
+      .item(gameToUpdate.id)
+      .replace(updatedGame);
+
+    return result;
+  } else {
+    // User not found
+    return null;
+  }
+}
+
+async function getStocksData(day) {
+  let allStocks = [];
+  for (const key of Object.keys(stockKeyMap)) {
+    try {
+      const stockPrice = await getStockPriceFromStock(stockKeyMap[key], day);
+      if (stockPrice !== null) {
+        allStocks.push({ [key]: stockPrice });
+      } else {
+        console.log(
+          `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return allStocks;
+}
+
+async function getMoneyFromUserStocks(id) {
+  const userStocks = await getUserStocksById(id);
+  return userStocks.stocks;
+}
+
 module.exports = {
   initializeCosmosDB,
   createUser,
   getAllUsers,
   getUserById,
   getUserStocksById,
-  getStockPriceFromAllStocks,
+  getStockPriceFromStock,
   updateUserInfo,
+  createGame,
+  updateGameInfo,
+  getGame,
+  getStocksData,
+  getMoneyFromUserStocks,
 };

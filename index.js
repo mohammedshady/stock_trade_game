@@ -1,6 +1,6 @@
 const express = require("express");
 const userRoute = require("./routes/user");
-const gameRoute = require("./Routes/game");
+const gameRoute = require("./routes/game");
 const { initializeCosmosDB } = require("./db");
 
 const app = express();
