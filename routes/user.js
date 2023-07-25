@@ -1,9 +1,5 @@
 const router = require("express").Router();
-//const { v4: uuidv4 } = require('uuid');
-//const { customAlphabet } = require('nanoid'); //package for unique ID generation
-//const generateNumericID = customAlphabet('1234567890', 4); //ID's are of length 4 digits
-// test
-// test 2
+const crypto = require('crypto');
 
 const {
   createUser,
@@ -74,8 +70,9 @@ router.get("/users/player/:id/stocks", async (req, res) => {
 //adding a new player
 router.post("/users", async (req, res) => {
   try {
+    const uniqueID = crypto.randomUUID();
     const player = {
-      id: req.body.id,
+      id : uniqueID,
       name: req.body.name,
       money: 5000,
       stocks: [
