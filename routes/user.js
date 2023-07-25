@@ -74,6 +74,7 @@ router.post("/users", async (req, res) => {
     const player = {
       id : uniqueID,
       name: req.body.name,
+      password : req.body.password,
       money: 5000,
       stocks: [
         { key: "MSFT", num_shares: 0 },
@@ -83,6 +84,12 @@ router.post("/users", async (req, res) => {
         { key: "AAPL", num_shares: 0 },
       ],
     };
+    //check that user entered a unique username (for SignUp & Login)
+    const userExists = await FindUser(player.name);
+    if(userExists)
+    {
+      return res.status(500).json({message:"User Already Exists, try another Username or Login"});
+    }
     // Save the new user to the database (using the createUser function)
     const user = await createUser(player);
     res.status(201).json({ message: "User created successfully", user });
