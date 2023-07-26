@@ -67,7 +67,7 @@ async function getUserById(userId) {
 }
 
 ////////////////////////////////////////// AMIRA /////////////////////////////////////////
-// fn used for checking whether a username previously exits in the database or not 
+// fn used for checking whether a username previously exits in the database or not
 async function FindUser(name) {
   const container = db.container("USER");
   // Use a query to retrieve the user with the specified ID
@@ -101,14 +101,14 @@ async function getUserStocksById(userId) {
   // If the user is found, return the first item (user)
 
   if (items.length > 0) {
-    return items[0];
+    return items[0].stocks;
   } else {
     // User not found
     return null;
   }
 }
 
-async function getStockPriceFromStock(stockKey, day) {
+async function getStockPrice(stockKey, day) {
   const container = db.container("STOCK");
   // Use a query to retrieve the user with the specified ID
   const querySpec = {
@@ -128,6 +128,27 @@ async function getStockPriceFromStock(stockKey, day) {
     // User not found
     return null;
   }
+}
+
+//get all stocks prices at a certain time ---- to be edited
+async function getStocksData(day) {
+  let allStocks = [];
+  for (const key of Object.keys(stockKeyMap)) {
+    try {
+      const stockPrice = await getStockPrice(stockKeyMap[key], day);
+      if (stockPrice !== null) {
+        allStocks.push({ [key]: stockPrice });
+      } else {
+        console.log(
+          `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return allStocks;
 }
 
 async function updateUserInfo(userId, data) {
@@ -161,6 +182,9 @@ async function updateUserInfo(userId, data) {
 }
 
 async function createGame(newItem) {
+  if (typeof newItem !== "object" || newItem === null) {
+    throw new Error("Invalid input. game must be a valid object.");
+  }
   const container = db.container("GAME");
   const { resource: createdItem } = await container.items.create(newItem);
   return createdItem;
@@ -213,42 +237,16 @@ async function updateGameInfo(gameId, game) {
   }
 }
 
-async function getStocksData(day) {
-  let allStocks = [];
-  for (const key of Object.keys(stockKeyMap)) {
-    try {
-      const stockPrice = await getStockPriceFromStock(stockKeyMap[key], day);
-      if (stockPrice !== null) {
-        allStocks.push({ [key]: stockPrice });
-      } else {
-        console.log(
-          `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  return allStocks;
-}
-
-async function getMoneyFromUserStocks(id) {
-  const userStocks = await getUserStocksById(id);
-  return userStocks.stocks;
-}
-
 module.exports = {
   initializeCosmosDB,
   createUser,
   getAllUsers,
   getUserById,
   getUserStocksById,
-  getStockPriceFromStock,
+  getStockPrice,
   updateUserInfo,
   createGame,
   updateGameInfo,
   getGame,
   getStocksData,
-  getMoneyFromUserStocks,
 };

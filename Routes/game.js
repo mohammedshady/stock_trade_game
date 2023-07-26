@@ -1,14 +1,15 @@
 const router = require("express").Router();
+const { getGameStats } = require("../helpers/getGameStats");
 
 const {
   createGame,
-  getStockPriceFromStock,
+  getStockPrice,
   updateUserInfo,
   getGame,
   getUserById,
   getStocksData,
+  getUserStocksById,
   updateGameInfo,
-  getMoneyFromUserStocks,
 } = require("../db");
 
 const stockKeyMap = {
@@ -61,7 +62,7 @@ router.put("/sell-stock", async (req, res) => {
   // Calculate the amount to be added to the user's money and the new number of shares
   // Assuming you have a function to get the stock price from your AllStocks database
   const { price: stockPrice, differenceBetweenDayBefore: priceChange } =
-    await getStockPriceFromStock(stockKeyMap[stockKey], day);
+    await getStockPrice(stockKeyMap[stockKey], day);
   const amountToBeAdded = stockPrice * numShares;
   // Update the user's money and num_shares of the stock
   player.money += parseFloat(amountToBeAdded);
@@ -105,7 +106,7 @@ router.put("/buy-stock", async (req, res) => {
   // Calculate the amount to be deducted from the user's money and the new number of shares
   // Assuming you have a function to get the stock price from your AllStocks database
   const { price: stockPrice, differenceBetweenDayBefore: priceChange } =
-    await getStockPriceFromStock(stockKeyMap[stockKey], day);
+    await getStockPrice(stockKeyMap[stockKey], day);
 
   const amountToBeDeducted = stockPrice * numShares;
   // Check if the user has enough money to buy
@@ -159,44 +160,46 @@ router.get("/stocks", async (req, res) => {
   }
 });
 
-//WORKING ON ____________________________________________________________________________
-
 // end game
 router.put("/game/end", async (req, res) => {
   try {
-    const { gameId, id, day } = req.body;
+    const { gameId, day } = req.body;
     const game = await getGame(gameId);
     if (!game) {
       res.status(404).json({ error: "game not found" });
     }
-
     // Object to store total profit for each player
-    const usersProfit = {};
+    const userGameLogs = {};
     // Calculate total profit for each player
     for (const [playerId, playerData] of Object.entries(game.players)) {
-      const stocks = await getMoneyFromUserStocks(playerId);
+      const stocks = await getUserStocksById(playerId);
+      //check if user has stocks
 
+      if (!stocks) {
+        res.status(404).json({ error: "stocks for users not found" });
+      }
       // calculate user current stocks price
-      let totalPrice = 0;
+      let ownedStocksPrice = 0;
       for (const stock of Object.values(stocks)) {
-        const priceOfStock = await getStockPriceFromStock(
-          stockKeyMap[stock.key],
-          day
-        );
-        const priceOfShares = priceOfStock.price * stock.num_shares;
-        totalPrice += priceOfShares;
+        const stockPrice = await getStockPrice(stockKeyMap[stock.key], day);
+        ownedStocksPrice += stockPrice.price * stock.num_shares;
       }
 
       let totalProfit = 0;
       for (const move of playerData.moves) {
         totalProfit += move.changeValue;
       }
-      usersProfit[playerId] = {
-        totalProfit: totalProfit + totalPrice,
+      userGameLogs[playerId] = {
+        totalProfit: totalProfit + ownedStocksPrice,
         moves: playerData.moves,
       };
     }
-    res.status(200).json(usersProfit);
+    const gameInfo = getGameStats(userGameLogs);
+    game.status = "ended";
+
+    await updateGameInfo(gameId, game);
+
+    res.status(200).json(gameInfo);
   } catch (error) {
     console.error("couldnt end game", error);
     res.status(500).json({ error: "Failed to End Game." });
