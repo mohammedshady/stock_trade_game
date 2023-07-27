@@ -16,14 +16,14 @@ To make requests to the database, we are using Axios. As an example, you can ref
 
 You can easily add any Frontend React components to the project. For this purpose, please use the `client/src/components` directory.
 
-Here are two components you can start with:
+Here are two components Folders you can start with:
 
-1. **Home** -> This component can be used for the login and create game (Mario component).
-2. **Game** -> This component can be used for other components related to the game.
+1. **Home** -> This Folder can be used for the login and create game (Mario component).
+2. **Game** -> This Folder can be used for other components related to the game.
 
 ## Adding CSS Styles
 
-For adding custom CSS styles to the project, please use the `styles` folder.
+For adding custom CSS styles to the project, please create `styles` folder inside the Home/Game Folder.
 
 # Getting Started
 
