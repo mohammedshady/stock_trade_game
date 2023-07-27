@@ -2,7 +2,7 @@ const express = require("express");
 const userRoute = require("./routes/user");
 const gameRoute = require("./routes/game");
 const { initializeCosmosDB } = require("./db");
-
+//route folder remove
 const app = express();
 const port = 3000;
 
