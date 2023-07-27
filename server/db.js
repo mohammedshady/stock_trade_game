@@ -1,5 +1,6 @@
 // cosmosdb-init.js
 const { CosmosClient } = require("@azure/cosmos");
+require("dotenv").config();
 
 const stockKeyMap = {
   MSFT: "Stock_Data_MSFT",
