@@ -12,6 +12,8 @@ The Cross-Origin Resource Sharing (CORS) issue has been resolved. Now, you shoul
 
 To make requests to the database, we are using Axios. As an example, you can refer to the `client/src/App.js` file to see how it's done.
 
+## No Need to paste in the env varaibles for the database URL and Cosmos ENDPOINT i added them
+
 ## Adding Frontend React Components
 
 You can easily add any Frontend React components to the project. For this purpose, please use the `client/src/components` directory.
