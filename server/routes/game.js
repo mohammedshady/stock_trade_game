@@ -144,7 +144,7 @@ router.put("/buy-stock", async (req, res) => {
 module.exports = router;
 
 //load game stocks
-router.get("/stocks", async (req, res) => {
+router.post("/stocks", async (req, res) => {
   try {
     const { day } = req.body;
     const stocksData = await getStocksData(day);
