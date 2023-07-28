@@ -1,24 +1,24 @@
-import React from 'react';
-import StockChange from './StockChange.js';
+import React from "react";
+import StockChange from "./StockChange.js";
 
 /* {stockbyday.key.differenceBetweenDayBefore}  */
-const Stocks = ({ownedstocks}) => {
+const Stocks = ({ ownedstocks }) => {
   return (
     <div className="stocks-container">
       <div className="Owned">Owned</div>
       {ownedstocks.map((stock, index) => (
-        <div class="main">
-          <div key={index} className="stock-row">
+        <div className="main" key={index}>
+          <div className="stock-row">
             <div>
               <p className="stock-key">{stock.key}</p>
               <p className="stock-name">name</p>
             </div>
-            <StockChange percentage={9.44}/>
+            <StockChange percentage={9.44} />
             <p className="stock-price">$price</p>
             <div className="amount-owned">
-              <div class="word-container">
-                <span class="word">Amount</span>
-                <span class="word">Owned</span>
+              <div className="word-container">
+                <span className="word">Amount</span>
+                <span className="word">Owned</span>
               </div>
               <p className="stock-amount">{stock.price * stock.num_shares}</p>
             </div>
