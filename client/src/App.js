@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
+import HomePage from "./components/startPage/HomePage";
 
 function App() {
   const [posts, setPosts] = useState("");
@@ -17,7 +18,7 @@ function App() {
   // }, []);
 
   // console.log(posts);
-  return <div className="App"></div>;
+  return <div > <HomePage/> </div>;
 }
 
 export default App;
