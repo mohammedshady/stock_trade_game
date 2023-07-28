@@ -19,42 +19,42 @@ import axios from "axios";
 }
 */
 
-/*let stocks = [
-  {"key":"MSFT", "price":5, "num_shares":10},
-  {"key":"IBM", "price":7, "num_shares":20}
-]*/
-
 
 function App() {
-  const [stocksData, setStocksData] = useState([]);
-  //_________________test request________________________
+  const [ownedstocksData, setownedStocksData] = useState([]);
+  // const playerID = ??
    useEffect(() => {
     axios
        .get("http://localhost:3000/api/user/users/player/8424/stocks")
        .then((response) => {
-         setStocksData(response.data);
+         setownedStocksData(response.data);
        })
        .catch((error) => {
          console.error(error);
        });
    }, []);
 
-  // console.log(posts);
-  //-------------------------------------------------------
-
-  //added by Amira
-  //const [stocksData, setStocksData] = useState([]);
-  //useEffect(() => {
-    // how to get player ID automatically ? (passed from first tab - props)
-    //const playerId = "6b78110a-ffa7-4583-b36c-7070d19a4d74"; //why never read ?
-    // Fetch the stocks data from the API 
-    //fetch("http://localhost:7000/api/user/users/player/${playerId}/stocks")
-      //.then((response) => response.json())
-      //.then((data) => setStocksData(data));
-  //}, []);
+   const [stocksData, setStocksData] = useState([]);
+   const day=1;
+   
+   useEffect(() => {
+    const requestBody = {
+      day: day,
+    };
+    axios
+       .get("http://localhost:3000/api/game/stocks",requestBody)
+       .then((response) => {
+         setStocksData(response.data);
+       })
+       .catch((error) => {
+         console.error(error);
+       });
+   }, [day]);
+   console.clear();
+   console.log(stocksData);
   
   return <div className="App">
-    <Stocks stocks={stocksData}/>
+    <Stocks ownedstocks={ownedstocksData}/>
   </div>;
   
 }
