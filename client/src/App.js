@@ -28,7 +28,7 @@ function App() {
   //_________________test request________________________
    useEffect(() => {
     axios
-       .get("http://localhost:3000/api/user/users/player/8424/stock")
+       .get("http://localhost:3000/api/user/users/player/8424/stocks")
        .then((response) => {
          setStocksData(response.data);
        })
