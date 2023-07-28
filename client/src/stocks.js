@@ -1,18 +1,19 @@
 import React from 'react';
 import StockChange from './StockChange.js';
 
-const Stocks = ({ stocks }) => {
+/* {stockbyday.key.differenceBetweenDayBefore}  */
+const Stocks = ({ownedstocks}) => {
   return (
     <div className="stocks-container">
       <div className="Owned">Owned</div>
-      {stocks.map((stock, index) => (
-        <>
+      {ownedstocks.map((stock, index) => (
+        <div class="main">
           <div key={index} className="stock-row">
             <div>
               <p className="stock-key">{stock.key}</p>
               <p className="stock-name">name</p>
             </div>
-            <StockChange percentage={9.44} />
+            <StockChange percentage={9.44}/>
             <p className="stock-price">$price</p>
             <div className="amount-owned">
               <div class="word-container">
@@ -23,7 +24,7 @@ const Stocks = ({ stocks }) => {
             </div>
           </div>
           <p className="line"></p>
-        </>
+        </div>
       ))}
     </div>
   );
