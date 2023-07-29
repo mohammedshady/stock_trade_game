@@ -48,12 +48,13 @@ function App() {
         console.error(error);
       });
   }, [day]);
-  console.clear();
-  console.log(stocksData);
+
+  //console.clear();
+  //console.log(stocksData);
 
   return (
     <div className="App">
-      <Stocks ownedstocks={ownedstocksData} />
+      <Stocks ownedstocks={ownedstocksData} stocksdata={stocksData} /> 
     </div>
   );
 }
