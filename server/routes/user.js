@@ -1,11 +1,12 @@
 const router = require("express").Router();
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 const {
   createUser,
   getAllUsers,
   getUserById,
   getUserStocksById,
+  FindUser,
 } = require("../db");
 
 ////////////////////////////////////////////////////////
@@ -62,9 +63,8 @@ router.post("/users", async (req, res) => {
   try {
     const uniqueID = crypto.randomUUID();
     const player = {
-      id : uniqueID,
+      id: uniqueID,
       name: req.body.name,
-      password : req.body.password,
       money: 5000,
       stocks: [
         { key: "MSFT", num_shares: 0 },
@@ -76,9 +76,10 @@ router.post("/users", async (req, res) => {
     };
     //check that user entered a unique username (for SignUp & Login)
     const userExists = await FindUser(player.name);
-    if(userExists)
-    {
-      return res.status(500).json({message:"User Already Exists, try another Username or Login"});
+    if (userExists) {
+      return res.status(500).json({
+        message: "User Already Exists, try another Username or Login",
+      });
     }
     // Save the new user to the database (using the createUser function)
     const user = await createUser(player);

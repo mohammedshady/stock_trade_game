@@ -1,15 +1,14 @@
-.title{
+.title {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  
 }
 * {
   font-family: Arial;
   text-decoration: none;
   font-size: 20px;
 }
-.App{
+.App {
   width: 15%;
   margin: auto;
 }
@@ -22,9 +21,9 @@
   font-size: 1rem;
   letter-spacing: 0.15rem;
   transition: all 0.3s;
-  place-content:center;
-  position:absolute;
-  bottom:10%;
+  place-content: center;
+  position: absolute;
+  bottom: 10%;
   overflow: hidden;
   z-index: 1;
 }
@@ -68,7 +67,7 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.title text{
+.title text {
   top: 0;
   font-family: "Brush Script MT", cursive;
   font-size: 50px;
@@ -76,19 +75,19 @@
 .App-header {
   background-color: rgb(26, 26, 57);
   background: -moz-linear-gradient(
-    left, 
-    rgba(26, 26, 57) 0%, 
+    left,
+    rgba(26, 26, 57) 0%,
     rgba(78, 78, 149) 100%
   );
   background: -webkit-gradient(
-    left top, 
-    right top, 
-    color-stop(0%, rgb(26, 26, 57)), 
+    left top,
+    right top,
+    color-stop(0%, rgb(26, 26, 57)),
     color-stop(100%, rgb(78, 78, 149))
   );
   background: -webkit-linear-gradient(
-    left, 
-    rgb(26, 26, 57) 0%, 
+    left,
+    rgb(26, 26, 57) 0%,
     rgba(78, 78, 149) 100%
   );
   min-height: 100vh;
@@ -116,7 +115,7 @@
 .page {
   /* background: #e2e2e5; */
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   height: calc(100% - 40px);
   position: absolute;
   place-content: center;
@@ -143,49 +142,42 @@
   }
 }
 .left {
-  
   background: white;
   height: calc(100% - 40px);
   top: 20px;
   position: relative;
 
   width: 100%;
-
 }
 @media (max-width: 767px) {
   .left {
-   
     height: 70%;
     left: 20px;
     width: calc(100% - 40px);
     max-height: 270px;
   }
-  
 }
 .login {
-  
- 
   font-weight: 900;
   margin: 0px 40px 40px;
 }
-.login img{
+.login img {
   margin-top: 5px;
   width: 250px;
   height: 163px;
 }
 
-
-.login text{
+.login text {
   color: #999;
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: 70px;
-   bottom: 60%; 
+  bottom: 60%;
 }
 .right {
-  background: #474A59;
-  box-shadow: 0px 0px 40px 16px rgba(0,0,0,0.22);
-  color: #F1F1F2;
+  background: #474a59;
+  box-shadow: 0px 0px 40px 16px rgba(0, 0, 0, 0.22);
+  color: #f1f1f2;
   position: relative;
   width: 100%;
 }
@@ -201,10 +193,9 @@
 .form {
   margin: 100px;
   position: relative;
- 
 }
 label {
-  color:  #c2c2c5;
+  color: #c2c2c5;
   display: block;
   font-size: 20px;
   height: 40px;
@@ -218,6 +209,10 @@ input {
   font-size: 20px;
   height: 30px;
   line-height: 30px;
-  outline:auto;
+  outline: auto;
   width: 100%;
+}
+.name-error {
+  font-size: 10px;
+  color: red;
 }
