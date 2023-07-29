@@ -1,8 +1,17 @@
 import React from "react";
 import StockChange from "./StockChange.js";
 
-/* {stockbyday.key.differenceBetweenDayBefore}  */
-const Stocks = ({ ownedstocks }) => {
+const Stocks = ({ ownedstocks , stocksdata}) => {
+
+  // Find the stock data from stocksdata array based on the stock key
+  const stockData = stocksdata.find((data) => data[stock.key]);
+  if (!stockData) {
+    // Handle the case when stock data is not found
+    return null;
+  }
+  //assign values
+  const { price, difference } = stockData[stock.key];
+
   return (
     <div className="stocks-container">
       <div className="Owned">Owned</div>
@@ -11,16 +20,19 @@ const Stocks = ({ ownedstocks }) => {
           <div className="stock-row">
             <div>
               <p className="stock-key">{stock.key}</p>
-              <p className="stock-name">name</p>
+              {/* name is to be added when I figure out where is it written*/}
+              {/* if not written anywhere I would just add it to user.js as a data member in stocks array*/}
+              <p className="stock-name">name</p> 
             </div>
-            <StockChange percentage={9.44} />
-            <p className="stock-price">$price</p>
+            {/* I hope this would work */}
+            <StockChange percentage={difference} />
+              <p className="stock-price">${price}</p>
             <div className="amount-owned">
               <div className="word-container">
                 <span className="word">Amount</span>
                 <span className="word">Owned</span>
               </div>
-              <p className="stock-amount">{stock.price * stock.num_shares}</p>
+              <p className="stock-amount">${price * stock.num_shares}</p>
             </div>
           </div>
           <p className="line"></p>
@@ -31,3 +43,4 @@ const Stocks = ({ ownedstocks }) => {
 };
 
 export default Stocks;
+
