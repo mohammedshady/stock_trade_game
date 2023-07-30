@@ -1,24 +1,20 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import axios from "axios";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./components/startPage/HomePage";
+import PreGame from "./components/Game/PreGame";
 
 function App() {
-  const [posts, setPosts] = useState("");
-  //_________________test request________________________
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3000/api/user/users")
-  //     .then((response) => {
-  //       setPosts(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
-  // console.log(posts);
-  return <div > <HomePage/> </div>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="game" element={<PreGame />} />
+        {/* <Route path="settings" element={<Settings />} />
+        <Route path="*" element={<NoPage />} /> */}
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
