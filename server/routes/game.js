@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { getGameStats } = require("../helpers/getGameStats");
+const crypto = require("crypto");
 
 const {
   createGame,
@@ -24,8 +25,9 @@ const stockKeyMap = {
 router.post("/game", async (req, res) => {
   try {
     const gameData = req.body;
+    const uniqueID = crypto.randomUUID();
     const newGameSession = {
-      id: gameData.id,
+      id: uniqueID,
       settings: {},
       players: gameData.players, // Players participating in the game
       status: "starting", // Status of the game session
@@ -36,6 +38,17 @@ router.post("/game", async (req, res) => {
     res.status(201).json({ message: "Game Created !", game });
   } catch (error) {
     res.status(500).json({ error: "Failed to create a new game session." });
+  }
+});
+
+//updating a game
+router.put("/game/update", async (req, res) => {
+  try {
+    const { id, gameSettings } = req.body;
+    const Updatedgame = await updateGameInfo(id, gameSettings);
+    res.status(201).json({ message: "Game Updated !", game });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update the game." });
   }
 });
 
