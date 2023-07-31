@@ -14,9 +14,9 @@ const Stocks = ({ ownedstocks, stocksdata }) => {
           // Handle the case when stock data is not found
           return null;
         }
-
-        const { price, difference } = stockData[stock.key];
-
+        const { price, differenceBetweenDayBefore:difference } = stockData[stock.key];
+        
+        
         return (
           <div className="main" key={index}>
             <div className="stock-row">
@@ -32,7 +32,7 @@ const Stocks = ({ ownedstocks, stocksdata }) => {
                   <span className="word">Amount</span>
                   <span className="word">Owned</span>
                 </div>
-                <p className="stock-amount">{stock.price * stock.num_shares}</p>
+                <p className="stock-amount">{price * stock.num_shares}</p>
               </div>
             </div>
             <p className="line"></p>

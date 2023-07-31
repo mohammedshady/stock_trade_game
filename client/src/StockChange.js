@@ -17,7 +17,7 @@ const StockChange = ({ percentage }) => {
     // Use the variable in the style attribute to set the color dynamically
     return (
       <p className="stock-change" style = {{color}}>
-        {percentage}%
+        {percentage}
       </p>
     );
   };
