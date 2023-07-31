@@ -46,12 +46,12 @@ router.put("/game/update", async (req, res) => {
   try {
     const { id, gameSettings } = req.body;
     const Updatedgame = await updateGameInfo(id, gameSettings);
-    res.status(201).json({ message: "Game Updated !", game });
+    res.status(201).json({ message: "Game Updated !", Updatedgame });
+
   } catch (error) {
     res.status(500).json({ error: "Failed to update the game." });
   }
 });
-
 // PUT route for SELLING a stock
 router.put("/sell-stock", async (req, res) => {
   const { userId, stockKey, numShares, day, gameId } = req.body;
