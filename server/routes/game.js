@@ -44,10 +44,9 @@ router.post("/game", async (req, res) => {
 //updating a game
 router.put("/game/update", async (req, res) => {
   try {
-    const { id, gameSettings } = req.body;
-    const Updatedgame = await updateGameInfo(id, gameSettings);
+    const { id, gameInfo } = req.body;
+    const Updatedgame = await updateGameInfo(id, gameInfo);
     res.status(201).json({ message: "Game Updated !", Updatedgame });
-
   } catch (error) {
     res.status(500).json({ error: "Failed to update the game." });
   }
