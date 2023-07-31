@@ -4,7 +4,7 @@ import "./styles/PreGame.css";
 import axios from "axios";
 import { useUser } from "../context/SetUser";
 import { useNavigate } from "react-router-dom";
-// import clap from "./clap.gif";
+ import clap from "./clap.gif";
 import { useLocation } from "react-router-dom";
 
 function PreGame() {
@@ -68,7 +68,7 @@ function PreGame() {
                   <br></br>
                   <text className="settingsText"> Settings</text>
                 </div>
-                <div className="upperRight">{/* <img src={clap} /> */}</div>
+                <div className="upperRight">{ <img src={clap} /> }</div>
               </div>
               <div className="upperBootom">
                 <h3>Game Code</h3>
@@ -84,53 +84,75 @@ function PreGame() {
             <div className="bottomScreen">
               <div className="bottomUp">
                 <div className="bottomLeft">
-                  <div className="dropdown">
-                    {/* <button class="dropbtn">Tick Rate</button>
-                  <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                  </div> */}
-                    <select
+                  <div className="dropdownOne">
+                    <text>Game Mode</text>
+                    <button name="mode"
+                      value={gameSettings.mode}
+                      onClick={handleSelectChange}>
+                    CPU
+                    </button>
+                    <button button name="mode"
+                      value={gameSettings.mode}
+                      onClick={handleSelectChange}>
+                    Multiplayer
+                    </button>
+                    
+                    {/* <select
                       name="mode"
                       value={gameSettings.mode}
                       onChange={handleSelectChange}
                     >
                       <option value="bot"> x Bot</option>
                       <option value="multi">Multiplayer</option>
-                    </select>
+                    </select> */}
                   </div>
-                  <div className="dropdown">
-                    {/* <button class="dropbtn">Duration</button>
-                  <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                  </div> */}
-                    <select
+                  <div className="dropdownTwo">
+                   
+                  <text >Duration</text>
+                    <button name="duration"
+                      value={gameSettings.duration}
+                      onClick={handleSelectChange} >
+                    5 min
+                    </button>
+                    <button button name="duration"
+                      value={gameSettings.duration}
+                      onClick={handleSelectChange}>
+                     10 min
+                    </button>
+                    <button button name="duration"
+                      value={gameSettings.duration}
+                      onClick={handleSelectChange}>
+                    15 min
+                    </button>
+                    {/* <select
                       name="duration"
                       value={gameSettings.duration}
                       onChange={handleSelectChange}
                     >
                       <option value="10">10 min</option>
                       <option value="5">5 min</option>
-                    </select>
+                    </select> */}
                   </div>
-                  <div className="dropdown">
-                    {/* <button class="dropbtn">Mode</button>
-                  <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                  </div> */}
-                    <select
+                  <div className="dropdownThree">
+                   
+                  <text>Tick Rate</text>
+                    <button value="12">
+                    12 sec
+                    </button>
+                    <button value="24"> 
+                    24 sec
+                    </button >
+                    <button value="36">
+                     36 sec
+                    </button>
+                    {/* <select
                       name="tickRate"
                       value={gameSettings.tickRate}
                       onChange={handleSelectChange}
                     >
                       <option value="24">24 sec</option>
                       <option value="12">12 sec</option>
-                    </select>
+                    </select> */}
                   </div>
                 </div>
                 <div className="bottomRight">

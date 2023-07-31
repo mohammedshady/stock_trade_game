@@ -68,11 +68,16 @@ function HomePage() {
         <div className="container">
           <div className="left">
             <div className="login">
+              <div className='login-image'>
               <img src={wolf} />
+              </div>
+              <br/>
+              <div className='login-text'>
               <text>
                 By logging in you agree to the ridiculously long terms that you
                 didn't bother to read
               </text>
+              </div>
             </div>
           </div>
           <div className="right">

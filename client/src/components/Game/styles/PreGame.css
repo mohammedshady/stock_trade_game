@@ -95,6 +95,7 @@ input {
   border-style: dotted;
   max-width: 500px;
   margin-right: 50px;
+  padding: 1.5%;
 }
 .bottomRight text {
   font-size: 17px;
@@ -104,7 +105,20 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: -600px;
+  margin-left: -22%;
+}
+.bottomLeft button{
+width: 5%;
+height: 30px;
+margin-left: 3%;
+min-width:115px ;
+ border-radius: 10rem;
+ background-color: #0cf;
+ color: #fff;
+ border: none;
+}
+.bottomLeft button:hover{
+  background-color: #008fb3;
 }
 .dropbtn {
   border-radius: 50%;
@@ -117,8 +131,8 @@ input {
   cursor: pointer;
 }
 
-.dropdown {
-  position: relative;
+.dropdownOne{
+  margin-left: -8%;
 }
 
 .dropdown-content {
@@ -151,9 +165,10 @@ input {
 }
 .bottomLow {
   flex: 1;
-  margin-top: 70px;
+  margin-top: 15%;
 }
 .button1 {
+
   display: inline-block;
   padding: 0.75rem 1.25rem;
   border-radius: 10rem;
@@ -164,7 +179,6 @@ input {
   transition: all 0.3s;
   place-content: center;
   position: relative;
-  bottom: 10%;
   overflow: hidden;
   z-index: 1;
   text-decoration: none;
