@@ -2,29 +2,35 @@
 import { useState } from "react";
 import "./styles/PreGame.css";
 import axios from "axios";
+import { useUser } from "../context/SetUser";
+import { useNavigate } from "react-router-dom";
 // import clap from "./clap.gif";
 import { useLocation } from "react-router-dom";
 
 function PreGame() {
   const location = useLocation();
+  const navigate = useNavigate();
   const gameData = location.state && location.state.gameData;
-
+  const { user } = useUser();
   const [error, setError] = useState("");
   const [gameSettings, setGameSettings] = useState({
     mode: "bot",
     duration: "5",
     tickRate: "24",
   });
-  const updateGameSettings = async () => {
+  const updateGameSettings = async (newGame) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/game/game");
-      console.log("Username posted successfully!");
+      const response = await axios.put(
+        "http://localhost:3000/api/game/game/update",
+        newGame
+      );
+      console.log("Updated Game Settings");
       //save the user id in local storage and keep his data throughout all components
       //redirect to the game settings page
       return response.data;
     } catch (error) {
-      console.error("Error while posting username:", error.message);
-      setError("error while posting username.");
+      console.error("Error updating Game Settings:", error.message);
+      setError("Error updating Game Settings.");
     }
   };
 
@@ -35,9 +41,20 @@ function PreGame() {
       [name]: value,
     }));
   };
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log({ id: gameData.game.id, gameSettings });
+
+    const newGame = {
+      id: gameData.game.id,
+      gameInfo: {
+        settings: gameSettings,
+        players: {
+          [user.id]: { data: {}, moves: [] },
+        },
+      },
+    };
+    await updateGameSettings(newGame);
+    navigate("/game");
   };
   return (
     <div className="App1">

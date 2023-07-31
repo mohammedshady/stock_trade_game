@@ -3,9 +3,11 @@ import "./HomePage.css";
 import wolf from "./wolf.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/SetUser";
 
 function HomePage() {
   const navigate = useNavigate();
+  const { updateUser } = useUser();
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
@@ -17,7 +19,8 @@ function HomePage() {
       );
       console.log("Username posted successfully!");
       //save the user id in local storage and keep his data throughout all components
-      //redirect to the game settings page
+      const { id, name: userName } = response.data.user;
+      updateUser(id, userName);
     } catch (error) {
       console.error("Error while posting username:", error.message);
       setError("error while posting username.");
@@ -28,7 +31,7 @@ function HomePage() {
     try {
       const response = await axios.post("http://localhost:3000/api/game/game");
       console.log("Username posted successfully!");
-      //save the user id in local storage and keep his data throughout all components
+
       //redirect to the game settings page
       return response.data;
     } catch (error) {
@@ -46,7 +49,7 @@ function HomePage() {
     try {
       await postUserToServer();
       const gameData = await createGame();
-      navigate("/game", { state: { gameData } });
+      navigate("/pre-game", { state: { gameData } });
     } catch (error) {
       console.log(error);
     }
