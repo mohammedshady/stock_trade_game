@@ -49,8 +49,6 @@ function App() {
       });
   }, [day]);
 
-  //console.clear();
-  //console.log(stocksData);
 
   return (
     <div className="App">
