@@ -74,7 +74,7 @@ async function FindUser(name) {
   // Use a query to retrieve the user with the specified ID
   const querySpec = {
     query: "SELECT * FROM c WHERE c.name = @name",
-    parameters: [{ name: "@name", value: containerNames }],
+    parameters: [{ name: "@name", value: name }],
   };
   const { resources: items } = await container.items
     .query(querySpec)
@@ -250,4 +250,5 @@ module.exports = {
   updateGameInfo,
   getGame,
   getStocksData,
+  FindUser,
 };
