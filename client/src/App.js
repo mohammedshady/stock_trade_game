@@ -1,5 +1,3 @@
-import Stocks from "./stocks.js";
-import "./stocks.css"; // Import the CSS file for styling
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";

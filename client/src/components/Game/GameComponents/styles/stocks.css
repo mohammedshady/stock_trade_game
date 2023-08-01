@@ -1,0 +1,107 @@
+/* Stocks.css */
+
+.stocks-container {
+  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background: linear-gradient(180deg, rgba(178, 237, 211, 0.48) 0%, rgba(194, 245, 223, 0.24) 83.85%); */
+    background: linear-gradient(
+    to bottom,
+    rgba(178, 237, 211, 1) 0%,
+    rgba(194, 245, 223, 0.51) 100%
+  );
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+
+  .main{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    height:90px;
+  }
+
+  .stock-row {
+    display: flex;
+    justify-content: space-around;
+    width: 440px;
+    height:90px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+  }
+  
+  .owned-stock-name {
+    color: #7C858E;
+    font-family: Inter;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+  }
+  
+  .owned-stock-price {
+    justify-content: center;
+    color: #1A1A1A;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+  }
+  
+  .stock-key {
+    color: #000;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .stock-amount{
+    justify-content: center;
+    color: #1A1A1A;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 0px;
+  }
+
+  .Owned{
+    display: flex;
+    width: 440px;
+    margin: 8px;
+    align-items: left;
+    flex-shrink: 0;
+    color: #262626;
+    font-family: DM Sans;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .word-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #1A1A1A;
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .line{
+    width: 406.792px;
+    height: 2px;
+    background: #AAA;
+    margin: 0px;
+  }
+  

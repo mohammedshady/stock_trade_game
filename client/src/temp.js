@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Stocks from "./stocks.js";
-import "./stocks.css"; // Import the CSS file for styling
+import Stocks from "./components/Game/GameComponents/stocks";
 
 export default function Temp(){
     const [ownedstocksData, setownedStocksData] = useState([]);
