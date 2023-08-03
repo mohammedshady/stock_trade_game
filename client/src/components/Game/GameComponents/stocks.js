@@ -19,8 +19,8 @@ const Stocks = ({ ownedstocks, stocksdata }) => {
         
         
         return (
-          <div className="main" key={index}>
-            <div className="stock-row">
+          <div className="main-container" >
+            <div className="stock-row" key={index}>
               <div>
                 <p className="stock-key">{stock.key}</p>
                 {/* name is to be added when I figure out where is it written*/}

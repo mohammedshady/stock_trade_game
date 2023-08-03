@@ -1,7 +1,6 @@
 /* Stocks.css */
 
 .stocks-container {
-  width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,7 +24,7 @@
   .stock-row {
     display: flex;
     justify-content: space-around;
-    width: 440px;
+    max-width: 440px;
     height:90px;
     margin-left: 4px;
     margin-right: 4px;
@@ -36,7 +35,9 @@
     align-content: center;
     align-items: center;
   }
-  
+  .main-container{
+    width: 100%;
+  }
   .owned-stock-name {
     color: #7C858E;
     font-family: Inter;
