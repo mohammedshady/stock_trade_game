@@ -43,7 +43,7 @@ function HomePage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name.length === 0) {
-      setError("please enter a name");
+      setError("Error! Please enter a name.");
       return;
     }
     try {
@@ -63,7 +63,7 @@ function HomePage() {
     <form className="App-header" onSubmit={handleSubmit}>
       <div className="page">
         <div className="title">
-          <text>The bugs of wall street</text>
+          <text>The Bugs of Wall Street</text>
         </div>
         <div className="container">
           <div className="left">
@@ -71,7 +71,7 @@ function HomePage() {
               <img src={wolf} />
               <text>
                 By logging in you agree to the ridiculously long terms that you
-                didn't bother to read
+                didn't bother to read.
               </text>
             </div>
           </div>
@@ -84,8 +84,8 @@ function HomePage() {
                 onChange={handleNameChange}
                 value={name}
               />
-              {error ? <p className="name-error">{error}</p> : null}
             </div>
+            {error ? <p className="name-error">{error}</p> : null}
           </div>
         </div>
       </div>
