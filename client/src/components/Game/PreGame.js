@@ -74,6 +74,7 @@ function PreGame() {
                 <h3>Game Code</h3>
 
                 <input
+                  className="game-input"
                   type="text"
                   value={"Game-" + gameData.game.id.slice(0, 4)}
                   disabled
@@ -91,6 +92,8 @@ function PreGame() {
                     <a href="#">Link 2</a>
                     <a href="#">Link 3</a>
                   </div> */}
+                  <div className="input-setting-game-container">
+                  <p>Game Mode</p>
                     <select
                       name="mode"
                       value={gameSettings.mode}
@@ -99,6 +102,7 @@ function PreGame() {
                       <option value="bot"> x Bot</option>
                       <option value="multi">Multiplayer</option>
                     </select>
+                    </div>
                   </div>
                   <div className="dropdown">
                     {/* <button class="dropbtn">Duration</button>
@@ -107,6 +111,8 @@ function PreGame() {
                     <a href="#">Link 2</a>
                     <a href="#">Link 3</a>
                   </div> */}
+                  <div className="input-setting-game-container">
+                  <p>Duration</p>
                     <select
                       name="duration"
                       value={gameSettings.duration}
@@ -115,6 +121,7 @@ function PreGame() {
                       <option value="10">10 min</option>
                       <option value="5">5 min</option>
                     </select>
+                    </div>
                   </div>
                   <div className="dropdown">
                     {/* <button class="dropbtn">Mode</button>
@@ -123,6 +130,8 @@ function PreGame() {
                     <a href="#">Link 2</a>
                     <a href="#">Link 3</a>
                   </div> */}
+                  <div className="input-setting-game-container">
+                  <p>Tick Rate</p>
                     <select
                       name="tickRate"
                       value={gameSettings.tickRate}
@@ -131,6 +140,7 @@ function PreGame() {
                       <option value="24">24 sec</option>
                       <option value="12">12 sec</option>
                     </select>
+                    </div>
                   </div>
                 </div>
                 <div className="bottomRight">

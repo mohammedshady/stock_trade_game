@@ -5,13 +5,13 @@ import Stocks from "./GameComponents/stocks";
 import Temp from "../../temp";
 import GameLog from "./GameComponents/GameLog";
 import StockHistory from "./GameComponents/StockHistory";
-
+import PlayerCard from "./GameComponents/PlayerCard";
 const stocksLogos = [
-  {MSFT:"../../../public/imgs/msftImg.png"},
-  {META:"../../../public/imgs/metaImg.png"},
-  {JPM:"../../../public/imgs/jpmImg.png"},
-  {TSLA:"../../../public/imgs/tslaImg.png"},
-  {IBM:"../../../public/imgs/ibmImg.png"},
+  {MSFT:"msftImg.png"},
+  {META:"metaImg.png"},
+  {JPM:"jpmImg.png"},
+  {TSLA:"tslaImg.png"},
+  {IBM:"ibmImg.png"},
 ]
 
 
@@ -36,7 +36,7 @@ function GameBoard() {
     <div className="board-lower-section-container">
       <div className="owned-stocks-block-container"><Temp/></div>
       <div className="Market-stocks-block-container"><Market/></div>
-      {/* <div className="game-log-block-container"><GameLog/></div> */}
+      <div className="game-log-block-container"><PlayerCard/></div>
     </div> 
     </>
     )

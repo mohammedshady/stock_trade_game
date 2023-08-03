@@ -1,5 +1,6 @@
 .main-stock-price-container{
-    width: 250px;
+    position: relative;
+    width: 300px;
     margin: 30px;
     background:linear-gradient(
         to bottom,
@@ -9,12 +10,32 @@
     padding:20px;
     border-radius: 10px;
     border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
 }
+.main-stock-price-container img{
+     width: 100px;
+     height: 100px;
+     opacity: 0.6;
 
+}
 .stock-ph-name{
     font-size: 12px;
 }
 .tock-ph-img{
     width: 30%;
     text-align: right;
+}
+.stock-history-background-graph{
+    position: absolute;
+    width: 68%;
+    left: 60px;
+    left:0;
+    bottom:0;
+}
+.stock-ph-info p{
+    margin: 0px;
+}
+.stock-ph-Title{
+    font-weight: bold;
 }

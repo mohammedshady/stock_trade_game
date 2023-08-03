@@ -68,7 +68,8 @@
   height: 180px;
   margin-right: -150px;
 }
-input {
+
+.game-input {
   background: transparent;
   border: 0;
   color: #f2f2f2;
