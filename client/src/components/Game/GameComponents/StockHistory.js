@@ -1,7 +1,6 @@
 import './styles/StockHistory.css'; // Import the CSS file for styling
 import ChartExample from './ChartExample';
 
-import chart from "chart.js"
 
 const StockHistory = ({ company,img,name,prices }) => {
     return(
