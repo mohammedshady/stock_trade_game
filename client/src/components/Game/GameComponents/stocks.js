@@ -1,39 +1,40 @@
 import React from "react";
-import "./styles/stocks.css"
+import "./styles/stocks.css";
 import StockChange from "./StockChange.js";
 
- {/* I hope this would work */}
+{
+  /* I hope this would work */
+}
 const Stocks = ({ ownedstocks, stocksdata }) => {
   return (
     <div className="stocks-container">
       <div className="Owned">Owned</div>
       {ownedstocks.map((stock, index) => {
         // Find the stock data from stocksdata array based on the stock key
-        const stockData = stocksdata.find((data) => data[stock.key]);
+        const stockData = stocksdata[stock.key];
 
         if (!stockData) {
           // Handle the case when stock data is not found
           return null;
         }
-        const { price, differenceBetweenDayBefore:difference } = stockData[stock.key];
-        
-        
         return (
-          <div className="main-container" >
-            <div className="stock-row" key={index}>
+          <div className="main-container" key={index}>
+            <div className="stock-row">
               <div>
                 <p className="stock-key">{stock.key}</p>
                 {/* name is to be added when I figure out where is it written*/}
                 <p className="owned-stock-name">name</p>
               </div>
-              <StockChange percentage={difference} />
-              <p className="owned-stock-price">${price}</p>
+              <StockChange percentage={stockData.differenceBetweenDayBefore} />
+              <p className="owned-stock-price">${stockData.price}</p>
               <div className="amount-owned">
                 <div className="word-container">
                   <span className="word">Amount</span>
                   <span className="word">Owned</span>
                 </div>
-                <p className="stock-amount">{price * stock.num_shares}</p>
+                <p className="stock-amount">
+                  {stockData.price * stock.num_shares}
+                </p>
               </div>
             </div>
             <p className="line"></p>

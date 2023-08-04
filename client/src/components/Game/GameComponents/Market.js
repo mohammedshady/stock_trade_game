@@ -1,10 +1,10 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MarketItem from "./MarketItem";
-//import data from "../json/stocks.json";
+import axios from "axios";
 import "./styles/Market.css";
 
-function Market() {
+function Market({ day }) {
   const initialStocks = [
     {
       url: "https://pbs.twimg.com/profile_images/1677090954350583811/Xy93qVY4_400x400.jpg",
@@ -22,7 +22,7 @@ function Market() {
     },
     {
       url: "https://pbs.twimg.com/profile_images/1605200105799401474/9cb5qdVk_400x400.png",
-      abbreviation: "JPM",
+      abbreviation: "AAPL",
       name: "JPMorgan Chase & Co.",
       priceChange: "N/A",
       price: "$N/A",
@@ -44,52 +44,44 @@ function Market() {
   ];
   const [stocks, setStocks] = useState(initialStocks);
 
-//   function refreshStocksEachDay(day) {
-//     for (let i = 0; i < initialStocks.length; i++) {
-//       let currentStockData = data["Stock_Data_" + stocks[i].abbreviation];
-//       let currentStockPrice = currentStockData[day].price;
-//       console.log(currentStockData);
-//       let currentPriceChange = currentStockData[day].differenceBetweenDayBefore;
+  useEffect(() => {
+    axios
+      .post("http://localhost:3000/api/game/stocks", { day: day })
+      .then((response) => {
+        setStocks((prev) =>
+          prev.map((stock) => ({
+            ...stock,
+            price: response.data[stock.abbreviation].price,
+            priceChange:
+              response.data[stock.abbreviation].differenceBetweenDayBefore,
+          }))
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-//       setStocks((previousStocks) =>
-//         previousStocks.map((stock, index) => {
-//           if (index === i) {
-//             return {
-//               ...stock,
-//               price: "$" + currentStockPrice,
-//               priceChange: currentPriceChange,
-//             };
-//           } else {
-//             return stock;
-//           }
-//         })
-//       );
-//     }
-//   }
-
-  function buttonHandlerRefresh() {
-    //refreshStocksEachDay(5);
-  }
   let borderStyle = true;
   return (
     <>
-      {/* <h2 className="marketLabelStyle">Market</h2> */}
       <ul className="stocks-list marketStyle">
-        {stocks.map((stock,index) => {
-          borderStyle =  (index === stocks.length -1) ? false : true;
-            return( <MarketItem
-                stockImage={stock.url}
-                stockAbbreviation={stock.abbreviation}
-                stockName={stock.name}
-                stockPriceChange={stock.priceChange}
-                stockPrice={stock.price}
-                priceChangeColor={stock.priceChange}
-                borderStyle = {borderStyle}
-              />)
-         
+        {stocks.map((stock, index) => {
+          borderStyle = index === stocks.length - 1 ? false : true;
+          return (
+            <MarketItem
+              key={index}
+              stockImage={stock.url}
+              stockAbbreviation={stock.abbreviation}
+              stockName={stock.name}
+              stockPriceChange={stock.priceChange}
+              stockPrice={stock.price}
+              priceChangeColor={stock.priceChange}
+              borderStyle={borderStyle}
+            />
+          );
         })}
       </ul>
-      {/* <button onClick={buttonHandlerRefresh}>Refresh Stocks</button> */}
     </>
   );
 }

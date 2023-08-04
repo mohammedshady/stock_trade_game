@@ -165,7 +165,6 @@ router.post("/stocks", async (req, res) => {
     if (!stocksData) {
       res.status(404).json({ error: "stocks data not found" });
     }
-
     res.status(200).json(stocksData);
   } catch (error) {
     console.error("Error loading stocks data:", error);

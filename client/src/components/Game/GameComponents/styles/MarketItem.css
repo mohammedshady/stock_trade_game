@@ -1,121 +1,120 @@
 .stock-item {
-    min-height: 86.874px;
-    flex-wrap: wrap;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-around;
-    border-bottom: 2px solid #AAAAAA;
-    align-items: center;
-    padding: 4px;
+  min-height: 86.874px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 2px solid #aaaaaa;
+  align-items: center;
+  padding: 4px;
+}
+.no-border-item {
+  border: none !important;
+}
 
-  }
-  .no-border-item{
-    border: none !important;
-  }
-  
-  .stock-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
-  
-  .stock-abbreviation {
-    width: 66.41px;
-    height: 26.92px;
-    margin: 0;
-    font-family: Inter;
-    font-style: normal;
-  }
-  
-  .stock-price-change {
-    width: 64.617px;
-    height: 21.54px;
-    margin: 0;
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    text-align: center;
-  }
-  
-  .stock-price {
-    width: 90.5px;
-    height: 28px;
-    margin: 0;
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    text-align: center;
-  }
-  
-  .stock-name {
-    width: 150.52px;
-    color: #7C858E;
-    margin: 0;
-    font-size: 14px;
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  
-  .stock-amount-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    flex-shrink: 0;
-    max-width: 150px;
-  }
-  
-  .stock-amount-label {
-    color: #262626;
-    text-align: center;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin: 5px;
-  }
-  
-  .stock-amount-input {
-    flex-shrink: 0;
-    margin-top: 0;
-  }
-  .stock-name-and-abbreviation{
-    margin: 0px 10px;
-  }
-  .stock-buy-and-sell-button {
-    margin: 10px;
-    font-size: 15px;
-    padding: 10px 35px;
-    background-color: #DBB7FF;
-    border-radius: 25%;
-    text-align: center;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-  }
-  .market-buttons-container{
-    text-align: center;
-  }
-  .stock-buy-and-sell-button:hover {
-    background-color: #B995FF;
-  }
+.stock-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
 
-  .marketLabelColorGreen {
-    color: #21BF73;
-  }
+.stock-abbreviation {
+  width: 66.41px;
+  height: 26.92px;
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+}
 
-  .marketLabelColorGreen {
-    color: #bf2121;
-  }
-  
+.stock-price-change {
+  width: 64.617px;
+  height: 21.54px;
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-align: center;
+}
+
+.stock-price {
+  width: 90.5px;
+  height: 28px;
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-align: center;
+}
+
+.stock-name {
+  width: 150.52px;
+  color: #7c858e;
+  margin: 0;
+  font-size: 14px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.stock-amount-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0px 20px;
+  max-width: 60px;
+}
+
+.stock-amount-label {
+  color: #262626;
+  text-align: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: 5px;
+}
+
+.stock-amount-input {
+  flex-shrink: 0;
+  margin-top: 0;
+}
+.stock-name-and-abbreviation {
+  margin: 0px 10px;
+}
+.stock-buy-and-sell-button {
+  margin: 10px;
+  font-size: 15px;
+  padding: 10px 35px;
+  background-color: #dbb7ff;
+  border-radius: 25%;
+  text-align: center;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.market-buttons-container {
+  text-align: center;
+}
+.stock-buy-and-sell-button:hover {
+  background-color: #b995ff;
+}
+
+.marketLabelColorGreen {
+  color: #21bf73;
+}
+
+.marketLabelColorGreen {
+  color: #bf2121;
+}

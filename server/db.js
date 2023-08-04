@@ -139,7 +139,7 @@ async function getStockPriceHistory(stockKey, days) {
     .query(querySpec)
     .fetchAll();
   if (items.length > 0) {
-    return items;    
+    return items;
   } else {
     return null;
   }
@@ -147,12 +147,12 @@ async function getStockPriceHistory(stockKey, days) {
 
 //get all stocks prices at a certain time ---- to be edited
 async function getStocksData(day) {
-  let allStocks = [];
+  let allStocks = {};
   for (const key of Object.keys(stockKeyMap)) {
     try {
       const stockPrice = await getStockPrice(stockKeyMap[key], day);
       if (stockPrice !== null) {
-        allStocks.push({ [key]: stockPrice });
+        allStocks[key] = stockPrice;
       } else {
         console.log(
           `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
@@ -172,7 +172,7 @@ async function getHistoryStocksData(days) {
     try {
       const stockPrice = await getStockPriceHistory(stockKeyMap[key], days);
       if (stockPrice !== null) {
-        allStocks[key]= stockPrice;
+        allStocks[key] = stockPrice;
       } else {
         console.log(
           `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
