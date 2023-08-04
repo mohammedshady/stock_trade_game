@@ -73,7 +73,7 @@ function Market() {
   let borderStyle = true;
   return (
     <>
-      <h2 className="marketLabelStyle">Market</h2>
+      {/* <h2 className="marketLabelStyle">Market</h2> */}
       <ul className="stocks-list marketStyle">
         {stocks.map((stock,index) => {
           borderStyle =  (index === stocks.length -1) ? false : true;
@@ -89,7 +89,7 @@ function Market() {
          
         })}
       </ul>
-      <button onClick={buttonHandlerRefresh}>Refresh Stocks</button>
+      {/* <button onClick={buttonHandlerRefresh}>Refresh Stocks</button> */}
     </>
   );
 }

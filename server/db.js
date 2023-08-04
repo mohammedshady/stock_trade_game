@@ -130,6 +130,20 @@ async function getStockPrice(stockKey, day) {
     return null;
   }
 }
+async function getStockPriceHistory(stockKey, days) {
+  const container = db.container("STOCK");
+  const querySpec = {
+    query: `SELECT TOP ${days} stock.day , stock.price FROM c JOIN stock IN c["${stockKey}"]`,
+  };
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  if (items.length > 0) {
+    return items;    
+  } else {
+    return null;
+  }
+}
 
 //get all stocks prices at a certain time ---- to be edited
 async function getStocksData(day) {
@@ -139,6 +153,26 @@ async function getStocksData(day) {
       const stockPrice = await getStockPrice(stockKeyMap[key], day);
       if (stockPrice !== null) {
         allStocks.push({ [key]: stockPrice });
+      } else {
+        console.log(
+          `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return allStocks;
+}
+
+async function getHistoryStocksData(days) {
+  let allStocks = {};
+  for (const key of Object.keys(stockKeyMap)) {
+    try {
+      const stockPrice = await getStockPriceHistory(stockKeyMap[key], days);
+      if (stockPrice !== null) {
+        allStocks[key]= stockPrice;
       } else {
         console.log(
           `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
@@ -250,5 +284,6 @@ module.exports = {
   updateGameInfo,
   getGame,
   getStocksData,
+  getHistoryStocksData,
   FindUser,
 };

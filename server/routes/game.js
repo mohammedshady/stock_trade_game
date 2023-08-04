@@ -10,6 +10,7 @@ const {
   getUserById,
   getStocksData,
   getUserStocksById,
+  getHistoryStocksData,
   updateGameInfo,
 } = require("../db");
 
@@ -172,6 +173,22 @@ router.post("/stocks", async (req, res) => {
   }
 });
 
+//load stocks history
+router.get("/stocks-history/:days", async (req, res) => {
+  try {
+    const { days } = req.params;
+    const stocksData = await getHistoryStocksData(days);
+
+    if (!stocksData) {
+      res.status(404).json({ error: "stocks data not found" });
+    }
+
+    res.status(200).json(stocksData);
+  } catch (error) {
+    console.error("Error loading stocks data:", error);
+    res.status(500).json({ error: "Failed to load stocks data for game." });
+  }
+});
 // end game
 router.put("/game/end", async (req, res) => {
   try {
