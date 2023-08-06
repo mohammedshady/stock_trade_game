@@ -18,11 +18,6 @@ function GameBoard() {
   const location = useLocation();
   const gameData = location.state && location.state.gameData;
 
-  const handleUserMoveMarket = (move) => {
-    console.log(move);
-    setUserMoves((prev) => [prev, move]);
-  };
-
   const stocksHistory = [
     {
       key: "MSFT",
@@ -62,10 +57,13 @@ function GameBoard() {
   const [userMoves, setUserMoves] = useState([]);
   const [day, setDay] = useState(1);
 
-  console.log(userMoves);
+  const handleUserMoveMarket = (move) => {
+    setUserMoves((prev) => [...prev, move]);
+  };
   if (!user.id) {
     console.log("cannot find user Login Again");
   }
+  console.log(user);
 
   // const playerID = ??
   useEffect(() => {
@@ -135,13 +133,13 @@ function GameBoard() {
         </div>
         <div className="game-log-block-container">
           <PlayerCard
-            move={userMoves}
+            userMoves={userMoves}
             ownedstocks={ownedstocksData}
             stocksdata={stocksData}
             user={user?.id}
           />
           <PlayerCard
-            move={userMoves}
+            userMoves={userMoves}
             ownedstocks={ownedstocksData}
             stocksdata={stocksData}
             user={user?.id}

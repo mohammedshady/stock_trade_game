@@ -11,6 +11,7 @@ function HomePage() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
+  console.log(user);
   const postUserToServer = async () => {
     try {
       const response = await axios.post(

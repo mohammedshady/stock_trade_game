@@ -3,7 +3,7 @@ import "./styles/PlayerCard.css";
 import axios from "axios";
 import playerLogo from "../../../imgs/playerImg.png";
 
-function PlayerCard({ ownedstocks, stocksdata, user, move }) {
+function PlayerCard({ ownedstocks, stocksdata, user, userMoves }) {
   const [totalStocksPrice, setTotalStocksPrice] = useState(0);
   const [userData, setUserData] = useState({});
   let total = 0;
@@ -20,8 +20,16 @@ function PlayerCard({ ownedstocks, stocksdata, user, move }) {
       .catch((error) => {
         console.error(error);
       });
-  }, [move]);
+  }, [userMoves]);
 
+  console.log(userMoves[userMoves.length - 1]);
+  // const userLastMove = userMoves?.pop();
+  // console.log(userLastMove?.changeValue);
+
+  const recentMoveProfit = userMoves[userMoves.length - 1]?.changeValue;
+  const sumOfProfit = userMoves.reduce((accumulator, move) => {
+    return accumulator + move.changeValue;
+  }, 0);
   return (
     <div className="game-homepage-playerCard">
       <div className="player-card-logo-title">
@@ -35,9 +43,21 @@ function PlayerCard({ ownedstocks, stocksdata, user, move }) {
         <p>
           S Value = <span>$ {totalStocksPrice}</span>
         </p>
-        <p>
-          Profit = <span>{}</span>
-        </p>
+
+        <div className="player-profit-container">
+          <div>profit = </div>
+          <div className="player-profit-value-container">
+            <div className="player-profit-total-value"> {sumOfProfit}</div>
+            <div
+              className="player-profit-value"
+              style={
+                recentMoveProfit > 0 ? { color: "green" } : { color: "red" }
+              }
+            >
+              {recentMoveProfit}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

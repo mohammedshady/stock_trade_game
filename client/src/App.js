@@ -5,6 +5,8 @@ import HomePage from "./components/startPage/HomePage";
 import PreGame from "./components/Game/PreGame";
 import GameBoard from "./components/Game/GameBoard";
 import { UserProvider } from "./components/context/UserContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
