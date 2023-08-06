@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./HomePage.css";
 import wolf from "./wolf.jpg";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { useUser } from "../context/SetUser";
 
 function HomePage() {
   const navigate = useNavigate();
-  const { updateUser } = useUser();
+  const { user, updateUser } = useUser();
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
@@ -30,24 +30,27 @@ function HomePage() {
   const createGame = async () => {
     try {
       const response = await axios.post("http://localhost:3000/api/game/game");
-      console.log("Username posted successfully!");
+      console.log("Game Created Successfully!");
 
       //redirect to the game settings page
       return response.data;
     } catch (error) {
-      console.error("Error while posting username:", error.message);
-      setError("error while posting username.");
+      console.error("Error while posting Game:", error.message);
+      setError("error while posting Game.");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name.length === 0) {
-      setError("please enter a name");
-      return;
-    }
+
     try {
-      await postUserToServer();
+      if (!user.id) {
+        if (name.length === 0) {
+          setError("please enter a name");
+          return;
+        }
+        await postUserToServer();
+      }
       const gameData = await createGame();
       navigate("/pre-game", { state: { gameData } });
     } catch (error) {
@@ -78,12 +81,19 @@ function HomePage() {
           <div className="right">
             <div className="form">
               <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                id="email"
-                onChange={handleNameChange}
-                value={name}
-              />
+              {user?.name ? (
+                <p>
+                  Logged in as : <span>{user.name}</span>
+                </p>
+              ) : (
+                <input
+                  type="text"
+                  id="email"
+                  onChange={handleNameChange}
+                  value={name}
+                />
+              )}
+
               {error ? <p className="name-error">{error}</p> : null}
             </div>
           </div>

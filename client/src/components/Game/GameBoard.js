@@ -12,7 +12,17 @@ import metaLogo from "../../imgs/metaImg.png";
 import jpmLogo from "../../imgs/jpmImg.png";
 import tslaLogo from "../../imgs/teslaImg.png";
 
+import { useLocation } from "react-router-dom";
+
 function GameBoard() {
+  const location = useLocation();
+  const gameData = location.state && location.state.gameData;
+
+  const handleUserMoveMarket = (move) => {
+    console.log(move);
+    setUserMoves((prev) => [prev, move]);
+  };
+
   const stocksHistory = [
     {
       key: "MSFT",
@@ -45,12 +55,14 @@ function GameBoard() {
       prices: [],
     },
   ];
+  const { user } = useUser();
   const [stocksDataHistory, setStocksDataHistory] = useState(stocksHistory);
   const [ownedstocksData, setownedStocksData] = useState([]);
   const [stocksData, setStocksData] = useState([]);
+  const [userMoves, setUserMoves] = useState([]);
   const [day, setDay] = useState(1);
-  const { user } = useUser();
 
+  console.log(userMoves);
   if (!user.id) {
     console.log("cannot find user Login Again");
   }
@@ -58,14 +70,15 @@ function GameBoard() {
   // const playerID = ??
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/user/users/player/8424/stocks")
+      .get(`http://localhost:3000/api/user/users/player/${user?.id}/stocks`)
       .then((response) => {
         setownedStocksData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+    //prob here
+  }, [user, userMoves]);
 
   useEffect(() => {
     axios
@@ -80,7 +93,7 @@ function GameBoard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/game/stocks-history/60")
+      .get("http://localhost:3000/api/game/stocks-history/30")
       .then((response) => {
         setStocksDataHistory((prev) =>
           prev.map((stock) => ({
@@ -114,18 +127,24 @@ function GameBoard() {
           <Stocks ownedstocks={ownedstocksData} stocksdata={stocksData} />
         </div>
         <div className="Market-stocks-block-container">
-          <Market day={day} />
+          <Market
+            day={day}
+            gameId={gameData.game.id}
+            handleUserMoveMarket={handleUserMoveMarket}
+          />
         </div>
         <div className="game-log-block-container">
           <PlayerCard
+            move={userMoves}
             ownedstocks={ownedstocksData}
             stocksdata={stocksData}
-            user={user.id}
+            user={user?.id}
           />
           <PlayerCard
+            move={userMoves}
             ownedstocks={ownedstocksData}
             stocksdata={stocksData}
-            user={user.id}
+            user={user?.id}
           />
         </div>
       </div>

@@ -216,3 +216,11 @@ input {
   font-size: 10px;
   color: red;
 }
+.right .form span {
+  font-size: 30px;
+  margin: 30px;
+  text-align: center;
+}
+.right .form p {
+  font-size: 15px;
+}

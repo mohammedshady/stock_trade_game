@@ -20,7 +20,7 @@ function PlayerCard({ ownedstocks, stocksdata, user, move }) {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [move]);
 
   return (
     <div className="game-homepage-playerCard">

@@ -98,7 +98,12 @@ router.put("/sell-stock", async (req, res) => {
 
   const updatedGame = await updateGameInfo(gameId, game);
 
-  res.json({ message: "Stock sold successfully", updatedInfo, updatedGame });
+  res.json({
+    message: "Stock sold successfully",
+    updatedInfo,
+    updatedGame,
+    userMove,
+  });
 });
 
 // PUT route for BUYING a stock
@@ -151,7 +156,12 @@ router.put("/buy-stock", async (req, res) => {
 
   const updatedGame = await updateGameInfo(gameId, game);
 
-  res.json({ message: "Stock bought successfully", updatedInfo, updatedGame });
+  res.json({
+    message: "Stock bought successfully",
+    updatedInfo,
+    updatedGame,
+    userMove,
+  });
 });
 
 module.exports = router;

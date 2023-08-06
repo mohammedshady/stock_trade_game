@@ -4,7 +4,11 @@ import MarketItem from "./MarketItem";
 import axios from "axios";
 import "./styles/Market.css";
 
-function Market({ day }) {
+function Market({ day, gameId, handleUserMoveMarket }) {
+  const handleUserMove = (move) => {
+    handleUserMoveMarket(move);
+  };
+
   const initialStocks = [
     {
       url: "https://pbs.twimg.com/profile_images/1677090954350583811/Xy93qVY4_400x400.jpg",
@@ -70,6 +74,9 @@ function Market({ day }) {
           borderStyle = index === stocks.length - 1 ? false : true;
           return (
             <MarketItem
+              onUserMove={handleUserMove}
+              gameId={gameId}
+              day={day}
               key={index}
               stockImage={stock.url}
               stockAbbreviation={stock.abbreviation}
