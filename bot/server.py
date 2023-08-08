@@ -1,4 +1,5 @@
 
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
@@ -26,6 +27,10 @@ models = {}
 for model_name, model_file in model_files.items():
     with open(model_file, 'r') as fin:
         models[model_name] = model_from_json(fin.read())
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+print(dir_path)
 
 
 @app.route('/predict', methods=['POST'])
