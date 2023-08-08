@@ -7,7 +7,7 @@ const stockKeyMap = {
   IBM: "Stock_Data_IBM",
   TSLA: "Stock_Data_TSLA",
   META: "Stock_Data_META",
-  AAPL: "Stock_Data_JPM",
+  JPM: "Stock_Data_JPM",
 };
 
 //DATABASE CONFIG

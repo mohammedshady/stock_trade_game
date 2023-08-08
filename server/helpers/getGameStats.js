@@ -31,4 +31,21 @@ function getGameStats(userGameLogs) {
   return gameInfo;
 }
 
-module.exports = { getGameStats };
+function formatPricesData(prices) {
+  let pricesData = {};
+  for (const key in prices) {
+    pricesData[key] = parseFloat(prices[key].price);
+  }
+  return pricesData;
+}
+function formatStocksData(stocks) {
+  const stocksData = {};
+  stocks.forEach((stock) => {
+    const symbol = stock.key.toLowerCase();
+    const numShares = stock.num_shares;
+    stocksData[symbol] = numShares;
+  });
+  
+  return stocksData
+}
+module.exports = { getGameStats,formatStocksData,formatPricesData };

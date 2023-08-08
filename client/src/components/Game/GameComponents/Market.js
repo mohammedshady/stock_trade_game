@@ -26,7 +26,7 @@ function Market({ day, gameId, handleUserMoveMarket }) {
     },
     {
       url: "https://pbs.twimg.com/profile_images/1605200105799401474/9cb5qdVk_400x400.png",
-      abbreviation: "AAPL",
+      abbreviation: "JPM",
       name: "JPMorgan Chase & Co.",
       priceChange: "N/A",
       price: "$N/A",

@@ -11,8 +11,12 @@ import msftLogo from "../../imgs/msftImg.png";
 import metaLogo from "../../imgs/metaImg.png";
 import jpmLogo from "../../imgs/jpmImg.png";
 import tslaLogo from "../../imgs/teslaImg.png";
+import { Await, useLocation } from "react-router-dom";
 
-import { useLocation } from "react-router-dom";
+const {
+  formatStocksData,
+  formatPricesData,
+} = require("../../helpers/dataFormater");
 
 function GameBoard() {
   const location = useLocation();
@@ -53,9 +57,15 @@ function GameBoard() {
   const { user } = useUser();
   const [stocksDataHistory, setStocksDataHistory] = useState(stocksHistory);
   const [ownedstocksData, setownedStocksData] = useState([]);
+  const [botStocksData, setBotStocksData] = useState(null);
   const [stocksData, setStocksData] = useState([]);
   const [userMoves, setUserMoves] = useState([]);
+  const [botData, setBotData] = useState({});
+  const [botMoves, setBotMoves] = useState([]);
   const [day, setDay] = useState(1);
+
+  const botId = "f6149180-4c4b-4abc-bbc3-45d99e36a9e4";
+  const flaskUrl = "http://127.0.0.1:5000";
 
   const handleUserMoveMarket = (move) => {
     setUserMoves((prev) => [...prev, move]);
@@ -63,7 +73,6 @@ function GameBoard() {
   if (!user.id) {
     console.log("cannot find user Login Again");
   }
-  console.log(user);
 
   // const playerID = ??
   useEffect(() => {
@@ -80,6 +89,19 @@ function GameBoard() {
 
   useEffect(() => {
     axios
+      .get(`http://localhost:3000/api/user/users/player/${botId}/stocks`)
+      .then((response) => {
+        setBotStocksData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    //prob here
+  }, []);
+
+  useEffect(() => {
+    axios
       .post("http://localhost:3000/api/game/stocks", { day })
       .then((response) => {
         setStocksData(response.data);
@@ -90,6 +112,15 @@ function GameBoard() {
   }, [day]);
 
   useEffect(() => {
+    axios
+      .get(`http://localhost:3000/api/user/users/${botId}`)
+      .then((response) => {
+        setBotData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     axios
       .get("http://localhost:3000/api/game/stocks-history/30")
       .then((response) => {
@@ -104,6 +135,26 @@ function GameBoard() {
         console.error(error);
       });
   }, []);
+  const getBotAction = () => {
+    if (botStocksData && stocksData) {
+      try {
+        const requestBody = {
+          money: 5000,
+          gameId: gameData.game.id,
+          botId: botId,
+          ownedStocks: formatStocksData(botStocksData),
+          stockPrices: formatPricesData(stocksData),
+          date: "2023-08-02",
+        };
+        const response = axios.post(`${flaskUrl}/predict`, requestBody);
+        const action = response.data;
+        setBotMoves((prev) => [...prev, action]);
+        console.log("Predictions:", action);
+      } catch (error) {
+        console.error("Error fetching predictions:", error.message);
+      }
+    }
+  };
 
   return (
     <div className="whole-game-board-container">
@@ -146,7 +197,9 @@ function GameBoard() {
           />
         </div>
       </div>
-      <button className="vote-finito-btn">Vote Finish</button>
+      <button className="vote-finito-btn" onClick={getBotAction}>
+        Vote Finish
+      </button>
       <div className="board-lower-section-timer-bar"></div>
     </div>
   );
