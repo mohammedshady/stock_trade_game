@@ -6,12 +6,8 @@ import pandas as pd
 from prophet.serialize import model_from_json
 from bot_script import activate_bot_script
 
-
-bot_id = ""
-
 app = Flask(__name__)
 CORS(app)
-CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Define a dictionary with model names and corresponding filenames
 model_files = {
@@ -48,7 +44,8 @@ def predict_prices():
         forecast_json[model_name] = forecast['yhat'].to_json(orient='records')
 
     action = activate_bot_script(data, jsonify(forecast_json).data)
-    return action
+    print(action)
+    return jsonify(action), 200
 
 
 if __name__ == '__main__':

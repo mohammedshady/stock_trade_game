@@ -12,6 +12,7 @@ import metaLogo from "../../imgs/metaImg.png";
 import jpmLogo from "../../imgs/jpmImg.png";
 import tslaLogo from "../../imgs/teslaImg.png";
 import { Await, useLocation } from "react-router-dom";
+import handleBotRequest from "../../helpers/botRequestHandler";
 
 const {
   formatStocksData,
@@ -64,6 +65,7 @@ function GameBoard() {
   const [botMoves, setBotMoves] = useState([]);
   const [day, setDay] = useState(1);
 
+  console.log(botMoves);
   const botId = "f6149180-4c4b-4abc-bbc3-45d99e36a9e4";
   const flaskUrl = "http://127.0.0.1:5000";
 
@@ -137,22 +139,31 @@ function GameBoard() {
   }, []);
   const getBotAction = () => {
     if (botStocksData && stocksData) {
-      try {
-        const requestBody = {
-          money: 5000,
-          gameId: gameData.game.id,
-          botId: botId,
-          ownedStocks: formatStocksData(botStocksData),
-          stockPrices: formatPricesData(stocksData),
-          date: "2023-08-02",
-        };
-        const response = axios.post(`${flaskUrl}/predict`, requestBody);
-        const action = response.data;
-        setBotMoves((prev) => [...prev, action]);
-        console.log("Predictions:", action);
-      } catch (error) {
-        console.error("Error fetching predictions:", error.message);
-      }
+      const requestBody = {
+        money: 5000.0,
+        gameId: gameData.game.id,
+        botId: botId,
+        ownedStocks: formatStocksData(botStocksData),
+        stockPrices: formatPricesData(stocksData),
+        date: "2022-07-01",
+      };
+      const serverUrl = "http://127.0.0.1:5000/predict";
+      axios
+        .post(serverUrl, requestBody)
+        .then((response) => {
+          console.log("Response:", response.data);
+
+          const botMove = handleBotRequest(
+            response.data,
+            day,
+            botId,
+            gameData.game.id
+          );
+          setBotMoves((prev) => [...prev, botMove]);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
 
@@ -189,12 +200,12 @@ function GameBoard() {
             stocksdata={stocksData}
             user={user?.id}
           />
-          <PlayerCard
-            userMoves={userMoves}
-            ownedstocks={ownedstocksData}
+          {/* <PlayerCard
+            userMoves={botMoves}
+            ownedstocks={botStocksData}
             stocksdata={stocksData}
-            user={user?.id}
-          />
+            user={botId}
+          /> */}
         </div>
       </div>
       <button className="vote-finito-btn" onClick={getBotAction}>

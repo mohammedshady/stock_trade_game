@@ -6,7 +6,7 @@ import { useUser } from "../context/SetUser";
 import { useNavigate } from "react-router-dom";
 // import clap from "./clap.gif";
 import { useLocation } from "react-router-dom";
-
+const botId = "f6149180-4c4b-4abc-bbc3-45d99e36a9e4";
 function PreGame() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -48,6 +48,7 @@ function PreGame() {
         settings: gameSettings,
         players: {
           [user.id]: { data: {}, moves: [] },
+          [botId]: { data: {}, moves: [] },
         },
       },
     };

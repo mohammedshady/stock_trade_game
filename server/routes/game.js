@@ -152,6 +152,7 @@ router.put("/buy-stock", async (req, res) => {
   };
 
   const game = await getGame(gameId);
+  console.log(game);
   game.players[userId].moves.push(userMove);
 
   const updatedGame = await updateGameInfo(gameId, game);
