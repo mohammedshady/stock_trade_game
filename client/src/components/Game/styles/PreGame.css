@@ -1,3 +1,4 @@
+
 .App1 {
   text-align: center;
 }
@@ -14,12 +15,7 @@
     rgba(26, 26, 57) 0%,
     rgba(78, 78, 149) 100%
   );
-  background: -webkit-gradient(
-    left top,
-    right top,
-    color-stop(0%, rgb(26, 26, 57)),
-    color-stop(100%, rgb(78, 78, 149))
-  );
+ 
   background: -webkit-linear-gradient(
     left,
     rgb(26, 26, 57) 0%,
@@ -68,8 +64,7 @@
   height: 180px;
   margin-right: -150px;
 }
-
-.game-input {
+input {
   background: transparent;
   border: 0;
   color: #f2f2f2;
@@ -96,6 +91,7 @@
   border-style: dotted;
   max-width: 500px;
   margin-right: 50px;
+  padding: 1.5%;
 }
 .bottomRight text {
   font-size: 17px;
@@ -105,7 +101,20 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: -600px;
+  margin-left: -22%;
+}
+.bottomLeft button{
+width: 5%;
+height: 30px;
+margin-left: 3%;
+min-width:115px ;
+ border-radius: 10rem;
+ background-color: #0cf;
+ color: #fff;
+ border: none;
+}
+.bottomLeft button:hover{
+  background-color: #008fb3;
 }
 .dropbtn {
   border-radius: 50%;
@@ -118,9 +127,9 @@
   cursor: pointer;
 }
 
-.dropdown {
-  position: relative;
-}
+/* .dropdownOne{
+  margin-left: -8%;
+} */
 
 .dropdown-content {
   padding-inline: 10px;
@@ -150,11 +159,43 @@
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }
+select {
+  /* Reset */
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  /* Personalize */
+  width: 20em;
+  height: 3em;
+  padding: 0 4em 0 1em;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center/1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2) 3em);
+  color: white;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  /* <option> colors */
+  /* Remove focus outline */
+  /* Remove IE arrow */
+}
+select option {
+  color: inherit;
+  background-color: #354381;
+}
+select:focus {
+  outline: none;
+}
+select::-ms-expand {
+  display: none;
+}
 .bottomLow {
   flex: 1;
-  margin-top: 70px;
+  margin-top: 7%;
 }
 .button1 {
+
   display: inline-block;
   padding: 0.75rem 1.25rem;
   border-radius: 10rem;
@@ -165,7 +206,6 @@
   transition: all 0.3s;
   place-content: center;
   position: relative;
-  bottom: 10%;
   overflow: hidden;
   z-index: 1;
   text-decoration: none;
