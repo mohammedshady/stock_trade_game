@@ -7,6 +7,7 @@ import random
 
 losing_stocks = []
 winning_stocks = []
+choice = ["b", "s", "b", "s", "b", "s", "b", "s"]
 
 
 def activate_bot_script(request_data, model_data):
@@ -25,16 +26,19 @@ def clean_model_data(model_data):
 
 
 def botMove(current_prices, future_prices, owned_stocks, money):
+    winning_stocks.clear()
+    losing_stocks.clear()
 
-    print("_________________")
+    print(owned_stocks)
+    print("current")
     print(current_prices)
-    print("_________________")
+    print("future_prices")
     print(future_prices)
     print("_________________")
 
     for key, value in current_prices.items():
         current_price = current_prices[key]
-        future_price = future_prices[key]
+        future_price = future_prices[key]*0.9
 
         if current_price > future_price:
             losing_stocks.append({
@@ -47,14 +51,36 @@ def botMove(current_prices, future_prices, owned_stocks, money):
                 "key": key,
                 "price": future_price
             })
-    if len(losing_stocks) >= 1 and sellStock(owned_stocks):
-        return sellStock(owned_stocks)
 
-    elif len(winning_stocks) >= 1 and buyStock(money):
+    print("wimimg stocks")
+    print(winning_stocks)
+    print("losig stocks")
+    print(losing_stocks)
+    print("_________________")
+
+    random_choice = random.choice(choice)
+
+    if random_choice == "b":
+        action = tryBuy(money)
+        if(action == False):
+            action = trySell(owned_stocks)
+        return action
+
+    if random_choice == "s":
+        action = trySell(owned_stocks)
+        if(action == False):
+            action = tryBuy(money)
+        return action
+
+
+def tryBuy(money):
+    if len(winning_stocks) >= 1 and buyStock(money):
         return buyStock(money)
 
-    else:
-        return {"action": "hellos"}
+
+def trySell(owned_stocks):
+    if len(losing_stocks) >= 1 and sellStock(owned_stocks):
+        return sellStock(owned_stocks)
 
 
 def buyStock(money):
@@ -66,11 +92,10 @@ def buyStock(money):
             "key": random_stock["key"],
             "amount": 1
         }
+        return stock_data
     else:
-        print("found no stocks")
+        print("found no money")
         return False
-
-    return stock_data
 
 
 def sellStock(owned_stocks):
@@ -82,8 +107,8 @@ def sellStock(owned_stocks):
             "key": random_stock["key"],
             "amount": 1
         }
+        print("hello 1")
+        return stock_data
     else:
         print("found no stocks")
         return False
-
-    return stock_data

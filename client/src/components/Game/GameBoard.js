@@ -31,7 +31,7 @@ function GameBoard() {
   const location = useLocation();
   const gameData = location.state && location.state.gameData;
   const notify = (text) => toast(text);
-  const initialSeconds = 0.2 * 60;
+  const initialSeconds = 5 * 60;
   const stocksHistory = [
     {
       key: "MSFT",
@@ -256,7 +256,7 @@ function GameBoard() {
             // );
             // console.log(botMove);
 
-            if ((response.data.action = "buy")) {
+            if (response.data.action === "buy") {
               axios
                 .put(buyRoute, requestBody)
                 .then((response) => {
@@ -266,7 +266,7 @@ function GameBoard() {
                 .catch((error) => {
                   console.error("Error:", error);
                 });
-            } else if ((response.data.action = "sell")) {
+            } else if (response.data.action === "sell") {
               axios
                 .put(sellRoute, requestBody)
                 .then((response) => {

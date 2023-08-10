@@ -70,7 +70,7 @@ router.put("/sell-stock", async (req, res) => {
   }
   // Check if the user has enough shares to sell
   if (numShares > stockToSell.num_shares) {
-    return res.status(400).json({ error: "Insufficient shares to sell" });
+    return res.status(402).json({ error: "Insufficient shares to sell" });
   }
 
   // Calculate the amount to be added to the user's money and the new number of shares
@@ -117,9 +117,9 @@ router.put("/buy-stock", async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
   // Find the stock in the user's stocks array based on the provided stockKey
-  const stockToSell = player.stocks.find((stock) => stock.key === stockKey);
+  const stockToBuy = player.stocks.find((stock) => stock.key === stockKey);
   // extra validation but not necessary as the player has a relation with all stocks
-  if (!stockToSell) {
+  if (!stockToBuy) {
     return res.status(404).json({ error: "Stock not found for this user" });
   }
   // Calculate the amount to be deducted from the user's money and the new number of shares
@@ -130,18 +130,16 @@ router.put("/buy-stock", async (req, res) => {
   const amountToBeDeducted = stockPrice * numShares;
   // Check if the user has enough money to buy
   if (amountToBeDeducted > player.money) {
-    return res.status(400).json(
-      {
-        error: "Insufficient money to buy",
-        message: "your money amount is: ",
-      },
-      player.money
-    );
+    return res.status(404).json({
+      error: "Insufficient money to buy",
+      message: "your money amount is: ",
+      moduleney: player.money,
+    });
     // .json({ message: "your money amount is: " }, player.money);
   }
   // Update the user's money and num_shares of the stock
   player.money -= parseFloat(amountToBeDeducted);
-  stockToSell.num_shares += parseInt(numShares);
+  stockToBuy.num_shares += parseInt(numShares);
   // Send a success response
 
   const updatedInfo = await updateUserInfo(userId, player);
@@ -247,7 +245,6 @@ router.put("/game/end", async (req, res) => {
       for (const move of playerData.moves) {
         totalProfit += move.changeValue;
       }
-
       const player = await getUserById(playerId);
       userGameLogs[playerId] = {
         name: player.name,
