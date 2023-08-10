@@ -144,8 +144,22 @@ async function getStockPriceHistory(stockKey, days) {
     return null;
   }
 }
+async function getStocksDate(day) {
+  const container = db.container("STOCK");
+  // Use a query to retrieve the user
+  const querySpec = `SELECT stock.date from c join stock in c["Stock_Data_IBM"] where stock.day = ${day}`;
 
-//get all stocks prices at a certain time ---- to be edited
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  if (items.length > 0) {
+    return items[0];
+    // Get the user with the matching userId
+  } else {
+    return null;
+  }
+}
+
 async function getStocksData(day) {
   let allStocks = {};
   for (const key of Object.keys(stockKeyMap)) {
@@ -286,4 +300,5 @@ module.exports = {
   getStocksData,
   getHistoryStocksData,
   FindUser,
+  getStocksDate,
 };

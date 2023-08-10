@@ -6,6 +6,7 @@ import playerLogo from "../../../imgs/playerImg.png";
 function PlayerCard({ ownedstocks, stocksdata, user, userMoves }) {
   const [totalStocksPrice, setTotalStocksPrice] = useState(0);
   const [userData, setUserData] = useState({});
+
   let total = 0;
   useEffect(() => {
     ownedstocks?.forEach((stock) => {
@@ -21,8 +22,6 @@ function PlayerCard({ ownedstocks, stocksdata, user, userMoves }) {
         console.error(error);
       });
   }, [userMoves]);
-
-  console.log(userMoves[userMoves.length - 1]);
   // const userLastMove = userMoves?.pop();
   // console.log(userLastMove?.changeValue);
 
@@ -38,23 +37,26 @@ function PlayerCard({ ownedstocks, stocksdata, user, userMoves }) {
       </div>
       <div className="player-card-info-desc">
         <p>
-          Money = <span>$ {userData.money}</span>
+          Money ={" "}
+          <span>
+            $ {userData.money ? parseFloat(userData.money.toFixed(2)) : null}
+          </span>
         </p>
-        <p>
-          S Value = <span>$ {totalStocksPrice}</span>
-        </p>
-
         <div className="player-profit-container">
           <div>profit = </div>
           <div className="player-profit-value-container">
-            <div className="player-profit-total-value"> {sumOfProfit}</div>
+            <div className="player-profit-total-value">
+              {sumOfProfit ? parseFloat(sumOfProfit.toFixed(2)) : null}
+            </div>
             <div
               className="player-profit-value"
               style={
                 recentMoveProfit > 0 ? { color: "green" } : { color: "red" }
               }
             >
-              {recentMoveProfit}
+              {recentMoveProfit
+                ? parseFloat(recentMoveProfit.toFixed(2))
+                : null}
             </div>
           </div>
         </div>

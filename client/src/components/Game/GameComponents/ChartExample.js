@@ -12,9 +12,9 @@ import {
 
 const ChartExample = ({ prices }) => {
   return (
-    <ResponsiveContainer width="100%" height={70}>
+    <ResponsiveContainer width="100%" height={75}>
       <ComposedChart data={prices} isAnimationActive={false}>
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="3 3" height={0} />
         <XAxis dataKey="day" tick={false} />
         <Line
           type="monotone"

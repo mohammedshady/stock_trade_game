@@ -9,6 +9,7 @@ const Stocks = ({ ownedstocks, stocksdata }) => {
   return (
     <div className="stocks-container">
       <div className="Owned">Owned</div>
+      {console.log(stocksdata)}
       {ownedstocks.map((stock, index) => {
         // Find the stock data from stocksdata array based on the stock key
         const stockData = stocksdata[stock.key];
@@ -33,7 +34,11 @@ const Stocks = ({ ownedstocks, stocksdata }) => {
                   <span className="word">Owned</span>
                 </div>
                 <p className="stock-amount">
-                  {stockData.price * stock.num_shares}
+                  {stockData.price * stock.num_shares
+                    ? parseFloat(
+                        (stockData.price * stock.num_shares).toFixed(2)
+                      )
+                    : null}
                 </p>
               </div>
             </div>

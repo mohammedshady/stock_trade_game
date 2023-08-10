@@ -33,6 +33,7 @@ print(dir_path)
 def predict_prices():
 
     data = request.get_json()
+    print(data["date"])
     # Convert the 'day' parameter to a datetime object
     day_dt = pd.to_datetime(data["date"])
     # Prepare a DataFrame with the dates for prediction

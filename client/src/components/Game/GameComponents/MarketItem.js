@@ -74,6 +74,12 @@ function MarketItem(props) {
   //};
 
   //style={priceChangeStyle}
+
+  const priceChangeValue = props.stockPriceChange.slice(
+    0,
+    props.stockPriceChange.length - 1
+  );
+
   return (
     <li className={`stock-item ${props.borderStyle ? "" : "no-border-item"}`}>
       <img
@@ -87,7 +93,14 @@ function MarketItem(props) {
         <h6 className="stock-name">{props.stockName}</h6>
       </div>
 
-      <h5 className="stock-price-change">{props.stockPriceChange}</h5>
+      <h5
+        className="stock-price-change"
+        style={priceChangeValue > 0 ? { color: "green" } : { color: "red" }}
+      >
+        {priceChangeValue > 0
+          ? `+${priceChangeValue}%`
+          : `${priceChangeValue}%`}
+      </h5>
       <h3 className="stock-price">{props.stockPrice}</h3>
 
       <div className="stock-amount-container">

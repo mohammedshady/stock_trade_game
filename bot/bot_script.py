@@ -8,6 +8,7 @@ import random
 losing_stocks = []
 winning_stocks = []
 
+
 def activate_bot_script(request_data, model_data):
     model_data = clean_model_data(model_data)
     print(type(request_data["money"]))
@@ -24,60 +25,65 @@ def clean_model_data(model_data):
 
 
 def botMove(current_prices, future_prices, owned_stocks, money):
-    print(money)
+
+    print("_________________")
+    print(current_prices)
+    print("_________________")
+    print(future_prices)
+    print("_________________")
 
     for key, value in current_prices.items():
         current_price = current_prices[key]
         future_price = future_prices[key]
 
         if current_price > future_price:
-                losing_stocks.append({
-                     "key":key,
-                     "price":future_price
-                })
+            losing_stocks.append({
+                "key": key,
+                "price": future_price
+            })
 
         elif future_price > current_price:
             winning_stocks.append({
-                    "key":key,
-                    "price":future_price
+                "key": key,
+                "price": future_price
             })
-    if len(losing_stocks)>=1 and sellStock(owned_stocks): 
+    if len(losing_stocks) >= 1 and sellStock(owned_stocks):
         return sellStock(owned_stocks)
-    
-    elif len(winning_stocks)>=1 and buyStock(money):
+
+    elif len(winning_stocks) >= 1 and buyStock(money):
         return buyStock(money)
 
     else:
-         return {"action":"hellos"}
+        return {"action": "hellos"}
+
 
 def buyStock(money):
-    stock_data= {}
-
-    for stock in winning_stocks :
-         if money > stock["price"]:
-            stock_data = {
-            "action":"buy",
-            "key":stock["key"],
-            "amount":1
-            }
-            break
-    else:
-        print("found no money")
-        return False
-    return stock_data
-
-def sellStock(owned_stocks):
-    stock_data= {}
-    for stock in winning_stocks:
-         if owned_stocks[stock['key']]>0 :
-            stock_data = {
-            "action":"sell",
-            "key":stock["key"],
-            "amount":1
-            }
-            break
+    stock_data = {}
+    random_stock = random.choice(winning_stocks)
+    if money > random_stock["price"]:
+        stock_data = {
+            "action": "buy",
+            "key": random_stock["key"],
+            "amount": 1
+        }
     else:
         print("found no stocks")
         return False
-    
+
+    return stock_data
+
+
+def sellStock(owned_stocks):
+    stock_data = {}
+    random_stock = random.choice(losing_stocks)
+    if owned_stocks[random_stock["key"]] > 0:
+        stock_data = {
+            "action": "sell",
+            "key": random_stock["key"],
+            "amount": 1
+        }
+    else:
+        print("found no stocks")
+        return False
+
     return stock_data

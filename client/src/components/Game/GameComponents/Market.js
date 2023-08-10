@@ -64,7 +64,7 @@ function Market({ day, gameId, handleUserMoveMarket }) {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [day]);
 
   let borderStyle = true;
   return (

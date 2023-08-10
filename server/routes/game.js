@@ -9,6 +9,7 @@ const {
   getGame,
   getUserById,
   getStocksData,
+  getStocksDate,
   getUserStocksById,
   getHistoryStocksData,
   updateGameInfo,
@@ -129,10 +130,14 @@ router.put("/buy-stock", async (req, res) => {
   const amountToBeDeducted = stockPrice * numShares;
   // Check if the user has enough money to buy
   if (amountToBeDeducted > player.money) {
-    return res
-      .status(400)
-      .json({ error: "Insufficient money to buy" })
-      .json({ message: "your money amount is: " }, player.money);
+    return res.status(400).json(
+      {
+        error: "Insufficient money to buy",
+        message: "your money amount is: ",
+      },
+      player.money
+    );
+    // .json({ message: "your money amount is: " }, player.money);
   }
   // Update the user's money and num_shares of the stock
   player.money -= parseFloat(amountToBeDeducted);
@@ -152,7 +157,6 @@ router.put("/buy-stock", async (req, res) => {
   };
 
   const game = await getGame(gameId);
-  console.log(game);
   game.players[userId].moves.push(userMove);
 
   const updatedGame = await updateGameInfo(gameId, game);
@@ -179,6 +183,21 @@ router.post("/stocks", async (req, res) => {
     res.status(200).json(stocksData);
   } catch (error) {
     console.error("Error loading stocks data:", error);
+    res.status(500).json({ error: "Failed to load stocks data for game." });
+  }
+});
+//load game stocks
+router.get("/stocksDate/:day", async (req, res) => {
+  try {
+    const { day } = req.params;
+    const stocksDate = await getStocksDate(day);
+
+    if (!stocksDate) {
+      res.status(404).json({ error: "stocks date not found" });
+    }
+    res.status(200).json(stocksDate);
+  } catch (error) {
+    console.error("Error loading stocks date:", error);
     res.status(500).json({ error: "Failed to load stocks data for game." });
   }
 });
