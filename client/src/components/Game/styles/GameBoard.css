@@ -51,7 +51,7 @@
   align-self: center;
   margin: 20px;
 }
-.progress-bar-actual{
+.progress-bar-actual {
   background: linear-gradient(
     to left,
     rgb(94, 243, 139) 0%,
@@ -60,4 +60,7 @@
   );
   transition: width 1s linear;
   height: 100%;
+}
+#my-Video-background {
+  position: fixed;
 }

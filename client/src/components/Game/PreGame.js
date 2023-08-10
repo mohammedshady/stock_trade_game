@@ -4,8 +4,10 @@ import "./styles/PreGame.css";
 import axios from "axios";
 import { useUser } from "../context/SetUser";
 import { useNavigate } from "react-router-dom";
- import clap from "./clap.gif";
+import clap from "./clap.gif";
 import { useLocation } from "react-router-dom";
+
+const botId = "f6149180-4c4b-4abc-bbc3-45d99e36a9e4";
 
 function PreGame() {
   const location = useLocation();
@@ -50,11 +52,12 @@ function PreGame() {
         settings: gameSettings,
         players: {
           [user.id]: { data: {}, moves: [] },
+          [botId]: { data: {}, moves: [] },
         },
       },
     };
     await updateGameSettings(newGame);
-    navigate("/game");
+    navigate("/game", { state: { gameData } });
   };
   return (
     <div className="App1">
@@ -68,7 +71,7 @@ function PreGame() {
                   <br></br>
                   <text className="settingsText"> Settings</text>
                 </div>
-                <div className="upperRight">{ <img src={clap} /> }</div>
+                <div className="upperRight">{<img src={clap} />}</div>
               </div>
               <div className="upperBootom">
                 <h3>Game Code</h3>
@@ -84,7 +87,7 @@ function PreGame() {
             <div className="bottomScreen">
               <div className="bottomUp">
                 <div className="bottomLeft">
-                <div className="dropdown">
+                  <div className="dropdown">
                     {/* <button class="dropbtn">Tick Rate</button>
                   <div class="dropdown-content">
                     <a href="#">Link 1</a>

@@ -1,16 +1,13 @@
-.title{
-  
-margin-bottom: 10%;
-  
+.title {
+  margin-bottom: 10%;
 }
 * {
   font-family: Arial;
   text-decoration: none;
   font-size: 20px;
-  
 }
 
-.title text{
+.title text {
   top: 0;
   font-family: "Brush Script MT", cursive;
   font-size: 50px;
@@ -22,19 +19,19 @@ margin-bottom: 10%;
   background-size: cover;
   background-color: rgb(26, 26, 57);
   background: -moz-linear-gradient(
-    left, 
-    rgba(26, 26, 57) 0%, 
+    left,
+    rgba(26, 26, 57) 0%,
     rgba(78, 78, 149) 100%
   );
   background: -webkit-gradient(
-    left top, 
-    right top, 
-    color-stop(0%, rgb(26, 26, 57)), 
+    left top,
+    right top,
+    color-stop(0%, rgb(26, 26, 57)),
     color-stop(100%, rgb(78, 78, 149))
   );
   background: -webkit-linear-gradient(
-    left, 
-    rgb(26, 26, 57) 0%, 
+    left,
+    rgb(26, 26, 57) 0%,
     rgba(78, 78, 149) 100%
   );
   /* min-height: 100vh; */
@@ -46,20 +43,16 @@ margin-bottom: 10%;
   color: white;
 }
 
-
-
-
 .page {
   /* background: #e2e2e5; */
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   height: calc(100% - 40px);
   position: absolute;
   place-content: center;
   width: calc(50% - 40px);
- 
 }
-.upperScreen{
+.upperScreen {
   display: flex;
   flex: 2;
 }
@@ -85,46 +78,39 @@ margin-bottom: 10%;
   }
 }
 .left {
-  
   background: white;
   height: calc(100% - 40px);
   top: 20px;
   position: relative;
-min-height: 380px;
+  min-height: 380px;
   width: 100%;
-
 }
 @media (max-width: 767px) {
   .left {
-   
     height: 70%;
     left: 20px;
     width: calc(100% - 40px);
     max-height: 270px;
   }
-  
 }
 .login {
-  
   font-weight: 900;
   margin: 25px 40px 40px;
   display: flex;
   flex-direction: column;
-  
 }
-.login-image{
+.login-image {
   flex: 2;
 }
-.login-text{
+.login-text {
   flex: 1;
   margin-top: -20px;
-   
 }
-.login-text text{
+.login-text text {
   max-height: 250px;
   font-size: 50px;
 }
-.login-image img{
+.login-image img {
   margin-top: 5px;
   width: 100%;
   height: 90%;
@@ -132,18 +118,17 @@ min-height: 380px;
   max-height: 270px;
 }
 
-
-.login text{
+.login text {
   color: #999;
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: 70px;
-   bottom: 60%; 
+  bottom: 60%;
 }
 .right {
-  background: #474A59;
-  box-shadow: 0px 0px 40px 16px rgba(0,0,0,0.22);
-  color: #F1F1F2;
+  background: #474a59;
+  box-shadow: 0px 0px 40px 16px rgba(0, 0, 0, 0.22);
+  color: #f1f1f2;
   position: relative;
   min-height: 415px;
   width: 100%;
@@ -157,14 +142,12 @@ min-height: 380px;
   }
 }
 
-
 .form {
   margin: 100px;
   position: relative;
- 
 }
 label {
-  color:  #c2c2c5;
+  color: #c2c2c5;
   display: block;
   font-size: 20px;
   height: 40px;
@@ -178,15 +161,14 @@ label {
   font-size: 20px;
   height: 30px;
   line-height: 30px;
-  outline:auto;
+  outline: auto;
   width: 100%;
 }
-.App{
+.App {
   flex: 1;
   width: 100%;
   margin-top: 20%;
   place-content: center;
-
 }
 .button {
   display: inline-block;
@@ -199,9 +181,9 @@ label {
   letter-spacing: 0.15rem;
   transition: all 0.3s;
   /* margin-left: -5%; */
-  place-content:center;
-  position:relative;
-  bottom:10%;
+  place-content: center;
+  position: relative;
+  bottom: 10%;
   overflow: hidden;
   z-index: 1;
 }

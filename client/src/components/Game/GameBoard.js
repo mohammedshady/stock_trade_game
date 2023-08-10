@@ -5,12 +5,14 @@ import Stocks from "./GameComponents/stocks";
 import StockHistory from "./GameComponents/StockHistory";
 import PlayerCard from "./GameComponents/PlayerCard";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/SetUser";
 import ibmLogo from "../../imgs/ibmImg.png";
 import msftLogo from "../../imgs/msftImg.png";
 import metaLogo from "../../imgs/metaImg.png";
 import jpmLogo from "../../imgs/jpmImg.png";
 import tslaLogo from "../../imgs/teslaImg.png";
+import gameBackGround from "../../imgs/gameBackGround.mp4";
 import { Await, useLocation } from "react-router-dom";
 import VictoryScreen from "./GameComponents/VictoryScreen";
 import handleBotRequest from "../../helpers/botRequestHandler";
@@ -29,6 +31,7 @@ function GameBoard() {
   const location = useLocation();
   const gameData = location.state && location.state.gameData;
   const notify = (text) => toast(text);
+  const initialSeconds = 0.2 * 60;
   const stocksHistory = [
     {
       key: "MSFT",
@@ -70,9 +73,10 @@ function GameBoard() {
   const [botData, setBotData] = useState({});
   const [botMoves, setBotMoves] = useState([]);
   const [day, setDay] = useState(700);
-  const [seconds, setSeconds] = useState(300);
+  const [seconds, setSeconds] = useState(initialSeconds);
   const [currentDate, setCurrentDate] = useState("");
   const [gameEnded, setGameEnded] = useState(false);
+  const navigate = useNavigate();
   console.log(gameEnded);
 
   const botId = "f6149180-4c4b-4abc-bbc3-45d99e36a9e4";
@@ -97,7 +101,7 @@ function GameBoard() {
     // Start the timer when the component mounts
     const timer = setTimeout(() => {
       setGameEnded(true);
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    }, (initialSeconds + 2) * 1000); // 5 minutes in milliseconds
 
     // Clean up the timer when the component unmounts or game ends
     return () => clearTimeout(timer);
@@ -183,7 +187,9 @@ function GameBoard() {
           day: day,
         })
         .then((response) => {
-          console.log(response);
+          console.log(response.data);
+          const gameLogs = response.data;
+          navigate("/victory", { state: { state: gameLogs } });
         })
         .catch((error) => {
           console.error(error);
@@ -280,70 +286,65 @@ function GameBoard() {
         });
     }
   };
-  const progressBarWidth = (seconds / 300) * 100;
+  const progressBarWidth = (seconds / initialSeconds) * 100;
+
   return (
-    <div className="whole-game-board-container">
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <div className="board-upper-section-container">
-        {stocksDataHistory.map((stock) => {
-          return (
-            <StockHistory
-              key={stock.key}
-              img={stock.logo}
-              company={stock.key}
-              name={stock.name}
-              prices={stock.prices}
+    <div className="game-board-page-whole">
+      {/* <video muted autoPlay loo id="my-Video-background">
+        <source src={gameBackGround} type="video/mp4" />
+      </video> */}
+      <div className="whole-game-board-container">
+        <ToastContainer
+          position="bottom-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <div className="board-upper-section-container">
+          {stocksDataHistory.map((stock) => {
+            return (
+              <StockHistory
+                key={stock.key}
+                img={stock.logo}
+                company={stock.key}
+                name={stock.name}
+                prices={stock.prices}
+              />
+            );
+          })}
+        </div>
+        <div className="board-lower-section-container">
+          <div className="owned-stocks-block-container">
+            <Stocks ownedstocks={ownedstocksData} stocksdata={stocksData} />
+          </div>
+          <div className="Market-stocks-block-container">
+            <Market
+              day={day}
+              gameId={gameData.game.id}
+              handleUserMoveMarket={handleUserMoveMarket}
             />
-          );
-        })}
-      </div>
-      <div className="board-lower-section-container">
-        <div className="owned-stocks-block-container">
-          <Stocks ownedstocks={ownedstocksData} stocksdata={stocksData} />
+          </div>
+          <div className="game-log-block-container">
+            <PlayerCard userMoves={userMoves} user={user?.id} />
+            <PlayerCard userMoves={botMoves} user={botId} />
+          </div>
         </div>
-        <div className="Market-stocks-block-container">
-          <Market
-            day={day}
-            gameId={gameData.game.id}
-            handleUserMoveMarket={handleUserMoveMarket}
-          />
-        </div>
-        <div className="game-log-block-container">
-          <PlayerCard
-            userMoves={userMoves}
-            ownedstocks={ownedstocksData}
-            stocksdata={stocksData}
-            user={user?.id}
-          />
-          <PlayerCard
-            userMoves={botMoves}
-            ownedstocks={botStocksData}
-            stocksdata={stocksData}
-            user={botId}
-          />
+        <button className="vote-finito-btn" onClick={handleEndGame}>
+          Vote Finish
+        </button>
+        <div className="board-lower-section-timer-bar">
+          <div
+            style={{ width: `${progressBarWidth}%` }}
+            className="progress-bar-actual"
+          ></div>
         </div>
       </div>
-      <button className="vote-finito-btn" onClick={handleEndGame}>
-        Vote Finish
-      </button>
-      <div className="board-lower-section-timer-bar">
-        <div
-          style={{ width: `${progressBarWidth}%` }}
-          className="progress-bar-actual"
-        ></div>
-      </div>
-      {gameEnded ? <VictoryScreen /> : false}
     </div>
   );
 }

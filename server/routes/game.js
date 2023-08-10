@@ -247,7 +247,11 @@ router.put("/game/end", async (req, res) => {
       for (const move of playerData.moves) {
         totalProfit += move.changeValue;
       }
+
+      const player = await getUserById(playerId);
       userGameLogs[playerId] = {
+        name: player.name,
+        money: player.money,
         totalProfit: totalProfit + ownedStocksPrice,
         moves: playerData.moves,
       };
