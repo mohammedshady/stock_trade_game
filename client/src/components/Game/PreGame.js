@@ -4,9 +4,9 @@ import "./styles/PreGame.css";
 import axios from "axios";
 import { useUser } from "../context/SetUser";
 import { useNavigate } from "react-router-dom";
-// import clap from "./clap.gif";
+ import clap from "./clap.gif";
 import { useLocation } from "react-router-dom";
-const botId = "f6149180-4c4b-4abc-bbc3-45d99e36a9e4";
+
 function PreGame() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,6 +25,8 @@ function PreGame() {
         newGame
       );
       console.log("Updated Game Settings");
+      //save the user id in local storage and keep his data throughout all components
+      //redirect to the game settings page
       return response.data;
     } catch (error) {
       console.error("Error updating Game Settings:", error.message);
@@ -48,12 +50,11 @@ function PreGame() {
         settings: gameSettings,
         players: {
           [user.id]: { data: {}, moves: [] },
-          [botId]: { data: {}, moves: [] },
         },
       },
     };
     await updateGameSettings(newGame);
-    navigate("/game", { state: { gameData } });
+    navigate("/game");
   };
   return (
     <div className="App1">
@@ -67,13 +68,12 @@ function PreGame() {
                   <br></br>
                   <text className="settingsText"> Settings</text>
                 </div>
-                <div className="upperRight">{/* <img src={clap} /> */}</div>
+                <div className="upperRight">{ <img src={clap} /> }</div>
               </div>
               <div className="upperBootom">
                 <h3>Game Code</h3>
 
                 <input
-                  className="game-input"
                   type="text"
                   value={"Game-" + gameData.game.id.slice(0, 4)}
                   disabled
@@ -84,24 +84,21 @@ function PreGame() {
             <div className="bottomScreen">
               <div className="bottomUp">
                 <div className="bottomLeft">
-                  <div className="dropdown">
+                <div className="dropdown">
                     {/* <button class="dropbtn">Tick Rate</button>
                   <div class="dropdown-content">
                     <a href="#">Link 1</a>
                     <a href="#">Link 2</a>
                     <a href="#">Link 3</a>
                   </div> */}
-                    <div className="input-setting-game-container">
-                      <p>Game Mode</p>
-                      <select
-                        name="mode"
-                        value={gameSettings.mode}
-                        onChange={handleSelectChange}
-                      >
-                        <option value="bot"> x Bot</option>
-                        <option value="multi">Multiplayer</option>
-                      </select>
-                    </div>
+                    <select
+                      name="mode"
+                      value={gameSettings.mode}
+                      onChange={handleSelectChange}
+                    >
+                      <option value="bot"> x Bot</option>
+                      <option value="multi">Multiplayer</option>
+                    </select>
                   </div>
                   <div className="dropdown">
                     {/* <button class="dropbtn">Duration</button>
@@ -110,17 +107,14 @@ function PreGame() {
                     <a href="#">Link 2</a>
                     <a href="#">Link 3</a>
                   </div> */}
-                    <div className="input-setting-game-container">
-                      <p>Duration</p>
-                      <select
-                        name="duration"
-                        value={gameSettings.duration}
-                        onChange={handleSelectChange}
-                      >
-                        <option value="10">10 min</option>
-                        <option value="5">5 min</option>
-                      </select>
-                    </div>
+                    <select
+                      name="duration"
+                      value={gameSettings.duration}
+                      onChange={handleSelectChange}
+                    >
+                      <option value="10">10 min</option>
+                      <option value="5">5 min</option>
+                    </select>
                   </div>
                   <div className="dropdown">
                     {/* <button class="dropbtn">Mode</button>
@@ -129,17 +123,14 @@ function PreGame() {
                     <a href="#">Link 2</a>
                     <a href="#">Link 3</a>
                   </div> */}
-                    <div className="input-setting-game-container">
-                      <p>Tick Rate</p>
-                      <select
-                        name="tickRate"
-                        value={gameSettings.tickRate}
-                        onChange={handleSelectChange}
-                      >
-                        <option value="24">24 sec</option>
-                        <option value="12">12 sec</option>
-                      </select>
-                    </div>
+                    <select
+                      name="tickRate"
+                      value={gameSettings.tickRate}
+                      onChange={handleSelectChange}
+                    >
+                      <option value="24">24 sec</option>
+                      <option value="12">12 sec</option>
+                    </select>
                   </div>
                 </div>
                 <div className="bottomRight">
