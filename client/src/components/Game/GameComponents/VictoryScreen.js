@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
 function LeaderboardPlayers(props) {
+  console.log(props);
   const playerRankColors = {
     1: "#FFD700",
     2: "#C0C0C0",
@@ -38,12 +39,12 @@ function VictoryScreen() {
     {
       playerRank: "1",
       playerName: "N/A",
-      playerTotalMoney: "$32323",
+      playerTotalMoney: 33323,
     },
     {
       playerRank: "2",
       playerName: "N/A",
-      playerTotalMoney: "$3434",
+      playerTotalMoney: 32131,
     },
   ];
 
@@ -55,12 +56,16 @@ function VictoryScreen() {
           ? {
               ...obj,
               playerName: endGameInfo.state.winner.logs.name,
-              playerTotalMoney: `$ ${endGameInfo.state.winner.logs.money}`,
+              playerTotalMoney: `$ ${parseFloat(
+                endGameInfo.state.winner.logs.money.toFixed(2)
+              )}`,
             }
           : {
               ...obj,
               playerName: endGameInfo.state.loser.logs.name,
-              playerTotalMoney: `$ ${endGameInfo.state.loser.logs.money}`,
+              playerTotalMoney: `$ ${parseFloat(
+                endGameInfo.state.loser.logs.money.toFixed(2)
+              )}`,
             }
       )
     );
@@ -72,7 +77,6 @@ function VictoryScreen() {
         <source src={moneyend} type="video/mp4" />
       </video>
       <h1 className="congrats-style">GAME OVER!</h1>
-      <h1>{initialPlayers[0].playerName} has won the game!</h1>
       <ul className="leaderboard-style">
         {players.map((player) => (
           <LeaderboardPlayers

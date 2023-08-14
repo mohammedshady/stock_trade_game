@@ -24,7 +24,6 @@ const Stocks = ({ ownedstocks, stocksdata }) => {
               <div>
                 <p className="stock-key">{stock.key}</p>
                 {/* name is to be added when I figure out where is it written*/}
-                <p className="owned-stock-name">name</p>
               </div>
               <StockChange percentage={stockData.differenceBetweenDayBefore} />
               <p className="owned-stock-price">${stockData.price}</p>

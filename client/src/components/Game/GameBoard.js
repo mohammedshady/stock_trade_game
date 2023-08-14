@@ -31,7 +31,7 @@ function GameBoard() {
   const location = useLocation();
   const gameData = location.state && location.state.gameData;
   const notify = (text) => toast(text);
-  const initialSeconds = 5 * 60;
+  const initialSeconds = 2.5 * 60;
   const stocksHistory = [
     {
       key: "MSFT",
@@ -110,7 +110,7 @@ function GameBoard() {
   useEffect(() => {
     const interval = setInterval(() => {
       setDay((prev) => prev - 1);
-    }, 24000); // 24000 milliseconds = 24 seconds
+    }, 12000); // 24000 milliseconds = 24 seconds
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
