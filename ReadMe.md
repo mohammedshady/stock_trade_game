@@ -1,50 +1,55 @@
-# Project README
+# Stock Trading Game with AI Bot
 
-## Merged Front and Back
+Welcome to the **Stock Trading Game**! This project features a stock trading simulation where users compete against an AI bot. The bot utilizes advanced predictive algorithms to forecast future stock prices and make trading decisions based on its predictions.
 
-The front-end and back-end of this project have been successfully merged to work together.
+## Installation
 
-## CORS Issue Fixed
+1. **Clone the Repository:** Start by cloning this repository to your local machine.
 
-The Cross-Origin Resource Sharing (CORS) issue has been resolved. Now, you should be able to make requests to the database without any problems.
+2. **Navigate to Project Directory:** Open a terminal and navigate to the `stock_trade_game` directory that you've cloned.
 
-## Making Requests to the Database
+3. **Install Client and Server Libraries:** Install the required libraries for the client and server by executing the following commands in separate terminal windows:
 
-To make requests to the database, we are using Axios. As an example, you can refer to the `client/src/App.js` file to see how it's done.
+   ```sh
+   cd stock_trade_game/client
+   npm install
+   ```
 
-## No Need to paste in the env varaibles for the database URL and Cosmos ENDPOINT i added them in a file that you have to include in your `server` directory.
+   ```sh
+   cd stock_trade_game/server
+   npm install
+   ```
 
-## Adding Frontend React Components
+4. **Install Python Libraries for Bot:** Move to the `bot` directory within the project and install the necessary Python libraries:
 
-You can easily add any Frontend React components to the project. For this purpose, please use the `client/src/components` directory.
+   ```sh
+   pip install flask flask_cors pandas prophet seaborn scikit-learn nltk numpy matplotlib.pyplot azure.cosmos prophet.serialize
+   ```
 
-Here are two components Folders you can start with:
+5. **Server Configuration:** Inside the `server` folder, you'll require a `.env` file containing your database credentials. For this file, kindly contact me at mohatech777@gmail.com.
 
-1. **Home** -> This Folder can be used for the login and create game (Mario component).
-2. **Game** -> This Folder can be used for other components related to the game.
+## Usage
 
-## Adding CSS Styles
+1. **Start the Client:** To launch the client, navigate to the `stock_trade_game/client` directory in the terminal and execute:
 
-For adding custom CSS styles to the project, please create `styles` folder inside the Home/Game Folder.
+   ```sh
+   npm start
+   ```
 
-# Getting Started
+2. **Run the Server:** Move to the `stock_trade_game/server` directory and initiate the server:
 
-## Starting the Backend
+   ```sh
+   npm start
+   ```
 
-Before starting the backend, ensure that you have installed all the required packages. To do this, follow these steps:
+3. **Activate the Bot:** Inside the `stock_trade_game/bot` directory, run the bot server by executing:
 
-1. Change the directory to `server`: `cd server`
-2. Install the packages: `npm i`
-3. Start the backend server: `npm start`
+   ```sh
+   python server.py
+   ```
 
-The backend will automatically be started at `http://localhost:3000`.
+## Future Updates
 
-## Starting the Frontend
+This project is under active development, with significant UI improvements, enhancements to the bot's decision-making logic, and new game modes. Stay tuned for exciting updates!
 
-Before starting the frontend, ensure that you have installed all the required packages. To do this, follow these steps:
-
-1. Change the directory to `client`: `cd client`
-2. Install the packages: `npm i`
-3. Start the frontend development server: `npm start`
-
-The frontend will automatically be started at `http://localhost:3001`.
+For inquiries and assistance, please don't hesitate to reach out to me at mohatech777@gmail.com.
