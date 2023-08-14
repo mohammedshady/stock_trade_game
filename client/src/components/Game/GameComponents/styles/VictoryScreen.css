@@ -1,0 +1,97 @@
+/* @keyframes scale-in-center{0%{transform:scale(0);opacity:1}100%{transform:scale(1);opacity:1}} */
+.victory-screen-style {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: Inter;
+  height: 100%;
+  margin: 10% auto;
+  border-radius: 10px;
+  padding: 20px 45px;
+}
+#my-Video-background {
+  position: fixed;
+}
+.victory-screen-style video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.player-item-style {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 3px solid rgb(255, 255, 255);
+  border-radius: 8px;
+  height: 75px;
+  overflow: hidden;
+  margin: 1px;
+}
+
+.leaderboard-style {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 312px;
+  width: 425px;
+  border-radius: 8px;
+}
+.scale-in-center {
+  animation: scale-in-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.playerrank-style {
+  font-size: 50px;
+  text-align: left;
+  padding: 20px;
+  padding-top: 0px;
+  border-right: 6px solid rgb(255, 255, 255);
+  position: relative;
+}
+
+.playername-style {
+  padding-left: 25px;
+}
+
+.playermoney-style {
+  padding-left: 25px;
+}
+
+.playerrank-image-style {
+  width: 50px;
+  height: 50px;
+}
+
+.button-style {
+  display: inline-block;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.button-style:hover {
+  background-color: #dcdcdc;
+}
+
+.button-style:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(240, 240, 240, 0.5);
+}
+
+.button-style:active {
+  background-color: #c0c0c0;
+}

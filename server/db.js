@@ -7,7 +7,7 @@ const stockKeyMap = {
   IBM: "Stock_Data_IBM",
   TSLA: "Stock_Data_TSLA",
   META: "Stock_Data_META",
-  AAPL: "Stock_Data_JPM",
+  JPM: "Stock_Data_JPM",
 };
 
 //DATABASE CONFIG
@@ -130,15 +130,63 @@ async function getStockPrice(stockKey, day) {
     return null;
   }
 }
+async function getStockPriceHistory(stockKey, days) {
+  const container = db.container("STOCK");
+  const querySpec = {
+    query: `SELECT TOP ${days} stock.day , stock.price FROM c JOIN stock IN c["${stockKey}"]`,
+  };
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  if (items.length > 0) {
+    return items;
+  } else {
+    return null;
+  }
+}
+async function getStocksDate(day) {
+  const container = db.container("STOCK");
+  // Use a query to retrieve the user
+  const querySpec = `SELECT stock.date from c join stock in c["Stock_Data_IBM"] where stock.day = ${day}`;
 
-//get all stocks prices at a certain time ---- to be edited
+  const { resources: items } = await container.items
+    .query(querySpec)
+    .fetchAll();
+  if (items.length > 0) {
+    return items[0];
+    // Get the user with the matching userId
+  } else {
+    return null;
+  }
+}
+
 async function getStocksData(day) {
-  let allStocks = [];
+  let allStocks = {};
   for (const key of Object.keys(stockKeyMap)) {
     try {
       const stockPrice = await getStockPrice(stockKeyMap[key], day);
       if (stockPrice !== null) {
-        allStocks.push({ [key]: stockPrice });
+        allStocks[key] = stockPrice;
+      } else {
+        console.log(
+          `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return allStocks;
+}
+
+async function getHistoryStocksData(days) {
+  let allStocks = {};
+  for (const key of Object.keys(stockKeyMap)) {
+    try {
+      const stockPrice = await getStockPriceHistory(stockKeyMap[key], days);
+      if (stockPrice !== null) {
+        allStocks[key] = stockPrice;
       } else {
         console.log(
           `Stock data not found for stock key: ${stockKeyMap[key]} and day: ${day}`
@@ -250,5 +298,7 @@ module.exports = {
   updateGameInfo,
   getGame,
   getStocksData,
+  getHistoryStocksData,
   FindUser,
+  getStocksDate,
 };

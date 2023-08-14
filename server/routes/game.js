@@ -9,7 +9,9 @@ const {
   getGame,
   getUserById,
   getStocksData,
+  getStocksDate,
   getUserStocksById,
+  getHistoryStocksData,
   updateGameInfo,
 } = require("../db");
 
@@ -18,7 +20,7 @@ const stockKeyMap = {
   IBM: "Stock_Data_IBM",
   TSLA: "Stock_Data_TSLA",
   META: "Stock_Data_META",
-  AAPL: "Stock_Data_JPM",
+  JPM: "Stock_Data_JPM",
 };
 
 //generating a game
@@ -68,7 +70,7 @@ router.put("/sell-stock", async (req, res) => {
   }
   // Check if the user has enough shares to sell
   if (numShares > stockToSell.num_shares) {
-    return res.status(400).json({ error: "Insufficient shares to sell" });
+    return res.status(402).json({ error: "Insufficient shares to sell" });
   }
 
   // Calculate the amount to be added to the user's money and the new number of shares
@@ -97,7 +99,12 @@ router.put("/sell-stock", async (req, res) => {
 
   const updatedGame = await updateGameInfo(gameId, game);
 
-  res.json({ message: "Stock sold successfully", updatedInfo, updatedGame });
+  res.json({
+    message: "Stock sold successfully",
+    updatedInfo,
+    updatedGame,
+    userMove,
+  });
 });
 
 // PUT route for BUYING a stock
@@ -110,9 +117,9 @@ router.put("/buy-stock", async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
   // Find the stock in the user's stocks array based on the provided stockKey
-  const stockToSell = player.stocks.find((stock) => stock.key === stockKey);
+  const stockToBuy = player.stocks.find((stock) => stock.key === stockKey);
   // extra validation but not necessary as the player has a relation with all stocks
-  if (!stockToSell) {
+  if (!stockToBuy) {
     return res.status(404).json({ error: "Stock not found for this user" });
   }
   // Calculate the amount to be deducted from the user's money and the new number of shares
@@ -123,14 +130,16 @@ router.put("/buy-stock", async (req, res) => {
   const amountToBeDeducted = stockPrice * numShares;
   // Check if the user has enough money to buy
   if (amountToBeDeducted > player.money) {
-    return res
-      .status(400)
-      .json({ error: "Insufficient money to buy" })
-      .json({ message: "your money amount is: " }, player.money);
+    return res.status(404).json({
+      error: "Insufficient money to buy",
+      message: "your money amount is: ",
+      moduleney: player.money,
+    });
+    // .json({ message: "your money amount is: " }, player.money);
   }
   // Update the user's money and num_shares of the stock
   player.money -= parseFloat(amountToBeDeducted);
-  stockToSell.num_shares += parseInt(numShares);
+  stockToBuy.num_shares += parseInt(numShares);
   // Send a success response
 
   const updatedInfo = await updateUserInfo(userId, player);
@@ -150,7 +159,12 @@ router.put("/buy-stock", async (req, res) => {
 
   const updatedGame = await updateGameInfo(gameId, game);
 
-  res.json({ message: "Stock bought successfully", updatedInfo, updatedGame });
+  res.json({
+    message: "Stock bought successfully",
+    updatedInfo,
+    updatedGame,
+    userMove,
+  });
 });
 
 module.exports = router;
@@ -164,6 +178,37 @@ router.post("/stocks", async (req, res) => {
     if (!stocksData) {
       res.status(404).json({ error: "stocks data not found" });
     }
+    res.status(200).json(stocksData);
+  } catch (error) {
+    console.error("Error loading stocks data:", error);
+    res.status(500).json({ error: "Failed to load stocks data for game." });
+  }
+});
+//load game stocks
+router.get("/stocksDate/:day", async (req, res) => {
+  try {
+    const { day } = req.params;
+    const stocksDate = await getStocksDate(day);
+
+    if (!stocksDate) {
+      res.status(404).json({ error: "stocks date not found" });
+    }
+    res.status(200).json(stocksDate);
+  } catch (error) {
+    console.error("Error loading stocks date:", error);
+    res.status(500).json({ error: "Failed to load stocks data for game." });
+  }
+});
+
+//load stocks history
+router.get("/stocks-history/:days", async (req, res) => {
+  try {
+    const { days } = req.params;
+    const stocksData = await getHistoryStocksData(days);
+
+    if (!stocksData) {
+      res.status(404).json({ error: "stocks data not found" });
+    }
 
     res.status(200).json(stocksData);
   } catch (error) {
@@ -171,7 +216,6 @@ router.post("/stocks", async (req, res) => {
     res.status(500).json({ error: "Failed to load stocks data for game." });
   }
 });
-
 // end game
 router.put("/game/end", async (req, res) => {
   try {
@@ -201,7 +245,10 @@ router.put("/game/end", async (req, res) => {
       for (const move of playerData.moves) {
         totalProfit += move.changeValue;
       }
+      const player = await getUserById(playerId);
       userGameLogs[playerId] = {
+        name: player.name,
+        money: player.money,
         totalProfit: totalProfit + ownedStocksPrice,
         moves: playerData.moves,
       };

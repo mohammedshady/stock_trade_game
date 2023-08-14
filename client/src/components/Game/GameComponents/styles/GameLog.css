@@ -1,0 +1,64 @@
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.game-homepage-gameLog {
+  width: 100%;
+  position: relative;
+  padding: 10px 0px;
+  background: linear-gradient(
+    to bottom,
+    rgba(178, 237, 211, 1) 0%,
+    rgba(194, 245, 223, 0.51) 100%
+  );
+  max-width: 350px;
+  max-height: 500px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.game-homepage-gameLog-title {
+  margin: 10px 20px;
+  font-size: 24px;
+}
+/* .game-homepage-gameLog-effect {
+  position: absolute;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  height: 30px;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0) 0%,
+    rgb(184, 239, 214, 1) 100%
+  );
+} */
+.game-homepage-gameLog-msgs {
+  margin: 0px 10px;
+  height: 400px;
+  overflow-y: auto;
+}
+.game-homepage-gameLog-msgs div {
+  margin: 10px;
+  font-size: 15px;
+  animation: slide-in-left 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.game-homepage-gameLog ::-webkit-scrollbar {
+  width: 8px; /* width of the entire scrollbar */
+}
+
+.game-homepage-gameLog ::-webkit-scrollbar-track {
+  background: transparent; /* color of the tracking area */
+}
+
+.game-homepage-gameLog ::-webkit-scrollbar-thumb {
+  background-color: rgb(255, 255, 255); /* color of the scroll thumb */
+  border: 1px solid black;
+  border-radius: 20px; /* roundness of the scroll thumb */
+}

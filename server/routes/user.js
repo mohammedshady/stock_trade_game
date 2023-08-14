@@ -71,7 +71,7 @@ router.post("/users", async (req, res) => {
         { key: "IBM", num_shares: 0 },
         { key: "TSLA", num_shares: 0 },
         { key: "META", num_shares: 0 },
-        { key: "AAPL", num_shares: 0 },
+        { key: "JPM", num_shares: 0 },
       ],
     };
     //check that user entered a unique username (for SignUp & Login)

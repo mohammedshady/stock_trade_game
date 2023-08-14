@@ -1,0 +1,42 @@
+.main-stock-price-container{
+    position: relative;
+    width: 240px;
+    height: 80px;
+    margin: 10px;
+    background:linear-gradient(
+        to bottom,
+        rgba(245, 230, 230, 1),
+        rgba(217, 217, 217, 0)
+      );
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+}
+.main-stock-price-container img{
+     width: 85px;
+     height: 85px;
+     opacity: 0.6;
+
+}
+.stock-ph-name{
+    font-size: 12px;
+}
+.tock-ph-img{
+    width: 30%;
+    text-align: right;
+}
+.stock-history-background-graph{
+    position: absolute;
+    width: 68%;
+    left: 60px;
+    left:0;
+    top:69px;
+}
+.stock-ph-info p{
+    margin: 0px;
+}
+.stock-ph-Title{
+    font-weight: bold;
+}
