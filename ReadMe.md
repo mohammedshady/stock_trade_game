@@ -52,4 +52,4 @@ Welcome to the **Stock Trading Game**! This project features a stock trading sim
 
 This project is under active development, with significant UI improvements, enhancements to the bot's decision-making logic, and new game modes. Stay tuned for exciting updates!
 
-For inquiries and assistance, please don't hesitate to reach out to me at mohatech777@gmail.com.
+For inquiries and assistance, please don't hesitate to reach out to us at mohatech777@gmail.com , marioayman2017@gmail.com , amiraabdelghany764@gmail.com
